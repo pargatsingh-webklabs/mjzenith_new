@@ -73,6 +73,9 @@ export default class AddCompany extends React.Component {
     return (
       <View style={styles.container}>
 		<TopBar />
+		<View >
+            <Text style={styles.contentHeading}>Add Company</Text>
+        </View>
         <ScrollView  contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={ false } >
           <View style={{ marginTop: 20}}>
 			  <TextInput
@@ -120,7 +123,6 @@ const styles = ScaledSheet.create({
 		backgroundColor: '#fff',
 	},
 	contentContainer: {
-		paddingTop: 30,
 		paddingLeft:20,
 		paddingRight:20,
 	},
@@ -154,4 +156,11 @@ const styles = ScaledSheet.create({
 		fontWeight: '700',
 		fontSize:'14@ms0.3'
 	},
+	contentHeading: {
+        paddingTop: 20,
+        paddingBottom:0,
+        textAlign:"center",
+        fontSize:25,
+        fontWeight:'600'
+    },
 });

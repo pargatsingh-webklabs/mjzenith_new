@@ -5,6 +5,10 @@ import Menus  from './components/Menus';
 
 import HomeScreen from './screens/TabScreens/Home/HomeScreen';
 
+import MyProfile from './screens/TabScreens/MyProfile';
+
+import AccountSetting from './screens/TabScreens/AccountSetting';
+
 import ListCompanies from './screens/TabScreens/Company/ListCompanies';
 import AddCompany from './screens/TabScreens/Company/AddCompany';
 
@@ -37,7 +41,13 @@ class RouterComponent extends Component {
 			            <Scene key="Company" hideNavBar  icon={this.Add} type="replace"  >
 			                <Scene key="ListCompanies" hideNavBar  component={ListCompanies}  type="replace" />
 			                <Scene key="AddCompany"  hideNavBar component={AddCompany} type="replace"   />
-			            </Scene>			            
+			            </Scene>
+			            <Scene key="Profile" hideNavBar  type="replace"  >
+			                <Scene key="MyProfile"  component={MyProfile}  type="replace" />
+			            </Scene>			           
+			            <Scene key="Account" hideNavBar  type="replace"  >
+			                <Scene key="AccountSetting"  component={AccountSetting}  type="replace" />
+			            </Scene>			           
 			        </Scene>
 			    </Scene>
 			</Router>            

@@ -15,18 +15,20 @@ import { Icon, Avatar } from 'react-native-elements'
 import { ScaledSheet } from 'react-native-size-matters';
 import { Actions } from 'react-native-router-flux';
 import Constants from '../constants/Constants';
+import ModalDropdown from 'react-native-modal-dropdown';
 
 export default class Menus extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { selectedMenu : [] , currentUser : [] };		
+		this.state = { selectedMenu : [] , currentUser : [] , dropDown : false };		
 		this.menus = Constants.MENUS;
+		
+		this.options = ['My Profile', 'Account Setting', 'Switch Company'];
 	}
 	
 	componentDidMount = () => {
 		AsyncStorage.getItem('userData').then((value) =>{
-		console.log(JSON.parse(value))
 			 this.setState({ currentUser: JSON.parse(value) }) 
 		 })
 		
@@ -73,9 +75,22 @@ export default class Menus extends React.Component {
 			case  'logout':
 				Actions.Auth();
 			break;
+			case  'My Profile':
+				Actions.MyProfile();
+			break;
+			case  'Account Setting':
+				Actions.AccountSetting();
+			break;
+			case  'Switch Company':
+
+			break;
 			default:
 				alert('Something went wrong');
 		}
+	}
+	
+	dropDown = () =>{
+		alert('show');
 	}
 
   render() {
@@ -96,19 +111,33 @@ export default class Menus extends React.Component {
 				/>
 			</View>
 			</TouchableOpacity>
-			<View style={{ alignItems:'center', marginTop:10 }}>	
-				<Avatar
-				  large 
-				  rounded
-				  source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg"}}
-				  onPress={() => console.log("Works!")}
-				  activeOpacity={0.7}
-				/>
-				<Text style={{ paddingTop: 10 }} >{ this.state.currentUser.email }</Text>
+			<View style={{  alignItems:'center', marginTop:10 }}>	
+
+				<ModalDropdown  
+					dropdownStyle={ styles.dropdown } 
+					dropdownTextStyle={{ textAlign: 'center',  fontSize: 14 ,color: '#000' }} 
+					options={ this.options }
+					onDropdownWillShow = { () => this.setState({ dropDown : true }) }
+					onDropdownWillHide = { () => this.setState({ dropDown : false }) }
+					onSelect = { (idx, value) => this._action(value) }
+
+				>
+					<View  style={{ flexDirection: 'row', marginTop:10 }} 	>
+						<Text style={{ fontSize: 18, fontWeight: '700' }} > { this.state.currentUser.fname && this.state.currentUser.lname  ? this.state.currentUser.fname+' '+this.state.currentUser.lname : this.state.currentUser.email }</Text>
+						<Icon
+							name= { this.state.dropDown ? 'arrow-drop-up' : 'arrow-drop-down' }
+							type='materialIcons'
+							size={20}
+							color={'#f05f40'}
+						/>
+					</View >
+				</ModalDropdown>
+				
 			</View>	
 			
 			<ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={ false } >
 				{ this.menus.map( (item, key) => (
+					this.state.currentUser.accounttype == 'individual' && item.name == 'company' ? null :
 					<View key={ key } >
 						<TouchableOpacity  style={styles.button} onPress={ () => item.subMenu == undefined ? this._action(item.name) : this._selectedMenu(item.name) } >
 							<Icon
@@ -178,5 +207,9 @@ const styles = ScaledSheet.create({
 	alignItems: 'center',
 	flexDirection: 'row',	
     backgroundColor: 'white',
+  },
+  dropdown: {
+	width:150,
+	height:'auto',
   },
 })

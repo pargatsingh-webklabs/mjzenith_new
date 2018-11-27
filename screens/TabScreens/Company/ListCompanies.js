@@ -87,6 +87,9 @@ export default class HomeScreen extends React.Component {
     return (
      <View style={styles.container}>
 		<TopBar />
+		<View >
+            <Text style={styles.contentHeading}>List Companies</Text>
+        </View>
 		<View style={styles.loderBackground}>
 		  <ActivityIndicator
 			color="#f05f40"
@@ -142,7 +145,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 	},
 	contentContainer: {
-		paddingTop: 30,
 		paddingLeft:20,
 		paddingRight:20,
 	},
@@ -155,4 +157,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+	contentHeading: {
+        paddingTop: 20,
+        paddingBottom:0,
+        textAlign:"center",
+        fontSize:25,
+        fontWeight:'600'
+    },
 });

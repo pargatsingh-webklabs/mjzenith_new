@@ -8,6 +8,9 @@ export default {
 	USER_COMPANIES : apiUrl+'getUserCompanies',
 	USER_COMPANY : apiUrl+'getUserCompany',
 	DELETE_COMPANY : apiUrl+'deleteCompany',
+	UPDATE_PROFILE : apiUrl+'updateUserInfo',
+	USER_DETAIL : apiUrl+'userDetails',
+	UPDATE_PASSWORD : apiUrl+'updatepassword',
 	MENUS : [
 			{ id: 1, name: 'dashboard', icon: 'home' , iconType: 'font-awesome', iconColor: '#f05f40' , iconSize: 20 
 			},
