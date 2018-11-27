@@ -11,42 +11,40 @@ import {
   RefreshControl,
   ActivityIndicator,
   Alert,
+  Linking
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { Icon ,  List, ListItem} from 'react-native-elements'
 import {Actions, DefaultRenderer} from 'react-native-router-flux';
-import { ListCompanies, deleteCompany } from '../../../API/Company';
+import { ListApplications , resetApplicationForm } from '../../../API/Applications';
+import Constants from '../../../constants/Constants';
 import TopBar from '../../../components/TopBar';
 
 export default class HomeScreen extends React.Component {
   	constructor(props) {
 		super(props);    
-		this.state = { Companies : [] , currentUser : [], refreshing: false, loader:false };	
+		this.state = { Applications : [] , currentUser : [], refreshing: false, loader:false };	
 	}
 	
 	componentDidMount = () =>{
 		this.setState({ loader:true });
 		AsyncStorage.getItem('userData').then((value) =>{ 	
 			this.setState({ currentUser: JSON.parse(value) }) 
-			this._listAll();
-			
-		})
-		
-		
+			this._listAll();	
+		})	
 	}
 	
-	_listAll = () =>{
-		var data = {};
-		data.user_id = this.state.currentUser.id;
-		
-		ListCompanies(data).then(result => {
-			this.setState({ Companies: result.data, loader:false })
+	_listAll = () =>{		
+		ListApplications().then(result => {
+			console.log(result.data)
+			this.setState({ Applications: result.data, loader:false })
 		})
 	}
 	
 	_onRefresh = () => {
 		this._listAll();
 	}
+
 	
 	dateTime = (UNIX_timestamp) =>{
 	  var a = new Date(UNIX_timestamp * 1000);
@@ -60,42 +58,52 @@ export default class HomeScreen extends React.Component {
 	  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
 	  return time;
 	}
-	
-	deleteCompany = (id) =>{
+
+	resetForm = (id) =>{
 		var data = {};
-		data.id = id;
+		data.application_id = id;
+		var companyId = this.state.currentUser.company_id;
+		data.company_id = (companyId=="" || companyId==null)?'0':companyId;		
+		data.user_id = this.state.currentUser.id;
 		Alert.alert(
-		  'Are you sure you want to delete company!',
+		  'Note : If once you reset this form, your previous changes to this form will be removed. So are you sure you want to reset this form ? ',
 		  '',
 		  [
 			{text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-			{text: 'OK', onPress: () =>  this._deleteCompany(data) },
+			{text: 'OK', onPress: () =>  this._resetForm(data) },
 		  ],
 		  { cancelable: false }
 		)
 	}
+
 	
-	_deleteCompany = (data) => {
+	_resetForm = (data) => {
 		this.setState({ loader:true })
-		deleteCompany(data).then(result => {
+		console.log(data);
+		resetApplicationForm(data).then(result => {
+			console.log(result);
 			this.setState({  loader: false });
-			this._listAll();
+			alert(result.message);
+
 		});
-	}
-	
+	}	
+
+		
   render() {
     return (
      <View style={styles.container}>
 		<TopBar />
-		<View >
-            <Text style={styles.contentHeading}>List Companies</Text>
-        </View>
 		<View style={styles.loderBackground}>
 		  <ActivityIndicator
 			color="#f05f40"
 			size="large"
 			animating={this.state.loader} />
 		</View>
+
+		<View >
+			<Text style={styles.contentHeading}>List Applications</Text>
+		</View>
+
         <ScrollView 
 			refreshControl={
 			  <RefreshControl
@@ -103,30 +111,38 @@ export default class HomeScreen extends React.Component {
 				onRefresh={this._onRefresh}
 			  />
 			}
-				contentContainerStyle={styles.contentContainer}>
+			contentContainerStyle={styles.contentContainer}>
             <List>
               {
-                this.state.Companies != undefined && this.state.Companies.map((item) => (
-                  <TouchableOpacity   key={item.id} style={styles.button} onPress={ () => Actions.AddCompany({ CompanyId: item.id }) } >
+                this.state.Applications != undefined && this.state.Applications.map((item) => (
+                	
                     <ListItem
-                      titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
+                      titleStyle ={styles.applicationTitle}
+                      subtitleStyle ={styles.applicationSubtitle}
                       title={item.name}
                       subtitle={ this.dateTime(item.created) }
-                      rightTitle='hello'
-                      rightIcon={ 
-                                  <Icon
-                                    raised
-                                    name='bitbucket'
+                      leftIcon={ 
+                                  <Icon 
+                                    name='copy'
                                     type='font-awesome'
                                     size={20}
-                                    color={'#fc0399'}
-                                    onPress={() => this.deleteCompany(item.id) }
+                                    color={'#f05f40'}
+                                    onPress={() => console.log('copy to clipboard in process')  }
+                                  />
+
+                                }                      
+                      rightIcon={ 
+                                  <Icon 
+                                    raised
+                                    name='undo'
+                                    type='font-awesome'
+                                    size={20}
+                                    color={'#19B31F'}
+                                    onPress={() => this.resetForm(item.id)  }
                                   />
 
                                 }
-
                     />
-                </TouchableOpacity>
                 ))
               }
             </List>
@@ -149,6 +165,30 @@ const styles = StyleSheet.create({
 		paddingLeft:20,
 		paddingRight:20,
 	},
+	contentHeading: {
+		paddingTop: 20,
+		paddingBottom:0,
+		textAlign:"center",
+		fontSize:25,
+		fontWeight:'600'
+	},
+	applicationTitle:{
+		color:'#f05f40',
+		fontSize:20,
+		fontWeight:'600',
+		marginLeft:10,
+		paddingLeft:10,
+		borderStyle: 'solid',
+		borderLeftWidth: 1,
+		borderLeftColor: 'grey'
+	},	
+	applicationSubtitle:{
+		marginLeft:10,
+		paddingLeft:10,
+		borderStyle: 'solid',
+		borderLeftWidth: 1,
+		borderLeftColor: 'grey'
+	},
 	loderBackground: {
 		position:'absolute',
 		right:0,
@@ -158,11 +198,4 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	contentHeading: {
-        paddingTop: 20,
-        paddingBottom:0,
-        textAlign:"center",
-        fontSize:25,
-        fontWeight:'600'
-    },
 });

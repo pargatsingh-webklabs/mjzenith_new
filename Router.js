@@ -9,6 +9,11 @@ import MyProfile from './screens/TabScreens/MyProfile';
 
 import AccountSetting from './screens/TabScreens/AccountSetting';
 
+import ListDocuments from './screens/TabScreens/Documents/ListDocuments';
+
+import ListApplications from './screens/TabScreens/Applications/ListApplications';
+
+
 import ListCompanies from './screens/TabScreens/Company/ListCompanies';
 import AddCompany from './screens/TabScreens/Company/AddCompany';
 
@@ -48,6 +53,12 @@ class RouterComponent extends Component {
 			            <Scene key="Account" hideNavBar  type="replace"  >
 			                <Scene key="AccountSetting"  component={AccountSetting}  type="replace" />
 			            </Scene>			           
+			            <Scene key="Documents" hideNavBar  icon={this.Add} type="replace"  >
+			                <Scene key="ListDocuments" hideNavBar  component={ListDocuments}  type="replace" />
+			            </Scene>
+			            <Scene key="Applications" hideNavBar  icon={this.Add} type="replace"  >
+			                <Scene key="ListApplications" hideNavBar  component={ListApplications}  type="replace" />
+			            </Scene>
 			        </Scene>
 			    </Scene>
 			</Router>            
