@@ -65,9 +65,11 @@ export default class Menus extends React.Component {
 				
 			break;
 			case  'documents':
+				Actions.ListDocuments();
 				
 			break;
 			case  'applications':
+				Actions.ListApplications();
 				
 			break;	
 			case  'logout':

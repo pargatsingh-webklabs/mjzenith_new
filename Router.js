@@ -5,6 +5,10 @@ import Menus  from './components/Menus';
 
 import HomeScreen from './screens/TabScreens/Home/HomeScreen';
 
+import ListDocuments from './screens/TabScreens/Documents/ListDocuments';
+
+import ListApplications from './screens/TabScreens/Applications/ListApplications';
+
 import ListCompanies from './screens/TabScreens/Company/ListCompanies';
 import AddCompany from './screens/TabScreens/Company/AddCompany';
 
@@ -37,7 +41,13 @@ class RouterComponent extends Component {
 			            <Scene key="Company" hideNavBar  icon={this.Add} type="replace"  >
 			                <Scene key="ListCompanies" hideNavBar  component={ListCompanies}  type="replace" />
 			                <Scene key="AddCompany"  hideNavBar component={AddCompany} type="replace"   />
-			            </Scene>			            
+			            </Scene>
+			            <Scene key="Documents" hideNavBar  icon={this.Add} type="replace"  >
+			                <Scene key="ListDocuments" hideNavBar  component={ListDocuments}  type="replace" />
+			            </Scene>
+			            <Scene key="Applications" hideNavBar  icon={this.Add} type="replace"  >
+			                <Scene key="ListApplications" hideNavBar  component={ListApplications}  type="replace" />
+			            </Scene>
 			        </Scene>
 			    </Scene>
 			</Router>            

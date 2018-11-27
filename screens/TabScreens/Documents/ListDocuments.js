@@ -11,17 +11,19 @@ import {
   RefreshControl,
   ActivityIndicator,
   Alert,
+  Linking
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { Icon ,  List, ListItem} from 'react-native-elements'
 import {Actions, DefaultRenderer} from 'react-native-router-flux';
-import { ListCompanies, deleteCompany } from '../../../API/Company';
+import { ListDocuments } from '../../../API/Documents';
+import Constants from '../../../constants/Constants';
 import TopBar from '../../../components/TopBar';
 
 export default class HomeScreen extends React.Component {
   	constructor(props) {
 		super(props);    
-		this.state = { Companies : [] , currentUser : [], refreshing: false, loader:false };	
+		this.state = { Documents : [] , currentUser : [], refreshing: false, loader:false };	
 	}
 	
 	componentDidMount = () =>{
@@ -37,10 +39,12 @@ export default class HomeScreen extends React.Component {
 	
 	_listAll = () =>{
 		var data = {};
-		data.user_id = this.state.currentUser.id;
-		
-		ListCompanies(data).then(result => {
-			this.setState({ Companies: result.data, loader:false })
+		var companyId = this.state.currentUser.company_id;
+		data.company_id = (companyId=="" || companyId==null)?'0':companyId;		
+		data.user_id = this.state.currentUser.id;		
+		ListDocuments(data).then(result => {
+			console.log(result.data)
+			this.setState({ Documents: result.data, loader:false })
 		})
 	}
 	
@@ -93,6 +97,10 @@ export default class HomeScreen extends React.Component {
 			size="large"
 			animating={this.state.loader} />
 		</View>
+
+		<View >
+			<Text style={styles.contentHeading}>List Documents</Text>
+		</View>
         <ScrollView 
 			refreshControl={
 			  <RefreshControl
@@ -100,30 +108,26 @@ export default class HomeScreen extends React.Component {
 				onRefresh={this._onRefresh}
 			  />
 			}
-				contentContainerStyle={styles.contentContainer}>
+			contentContainerStyle={styles.contentContainer}>
             <List>
               {
-                this.state.Companies != undefined && this.state.Companies.map((item) => (
-                  <TouchableOpacity   key={item.id} style={styles.button} onPress={ () => Actions.AddCompany({ CompanyId: item.id }) } >
+                this.state.Documents != undefined && this.state.Documents.map((item) => (
                     <ListItem
                       titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
-                      title={item.name}
+                      title={item.document}
                       subtitle={ this.dateTime(item.created) }
-                      rightTitle='hello'
                       rightIcon={ 
-                                  <Icon
+                                  <Icon 
                                     raised
-                                    name='bitbucket'
+                                    name='eye'
                                     type='font-awesome'
                                     size={20}
-                                    color={'#fc0399'}
-                                    onPress={() => this.deleteCompany(item.id) }
+                                    color={'#19B31F'}
+                                    onPress={() => Linking.openURL(Constants.VIEW_DOWNLOAD_DOCUMENT+item.document)  }
                                   />
 
                                 }
-
                     />
-                </TouchableOpacity>
                 ))
               }
             </List>
@@ -143,9 +147,15 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 	},
 	contentContainer: {
-		paddingTop: 30,
 		paddingLeft:20,
 		paddingRight:20,
+	},
+	contentHeading: {
+		paddingTop: 20,
+		paddingBottom:0,
+		textAlign:"center",
+		fontSize:25,
+		fontWeight:'600'
 	},
 	loderBackground: {
 		position:'absolute',

@@ -1,4 +1,5 @@
 const apiUrl = 'http://mjzenith.com/api/';
+const downloadUrl = 'http://mjzenith.com/';
 
 export default {
 	USER_LOGIN : apiUrl+'login',
@@ -8,6 +9,10 @@ export default {
 	USER_COMPANIES : apiUrl+'getUserCompanies',
 	USER_COMPANY : apiUrl+'getUserCompany',
 	DELETE_COMPANY : apiUrl+'deleteCompany',
+	USER_DOCUMENTS : apiUrl+'getUserDocuments',	
+	VIEW_DOWNLOAD_DOCUMENT : downloadUrl+'uploads/user_documents/',
+	USER_APPLICATIONS : apiUrl+'getUserApplications',
+	RESET_APPLICATIONS_FORM : apiUrl+'resetApplicationForm',
 	MENUS : [
 			{ id: 1, name: 'dashboard', icon: 'home' , iconType: 'font-awesome', iconColor: '#f05f40' , iconSize: 20 
 			},
