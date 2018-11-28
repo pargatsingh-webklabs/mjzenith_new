@@ -11,41 +11,60 @@ import {
   RefreshControl,
   ActivityIndicator,
   Alert,
-  Linking
+  Linking,
+  Clipboard
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import { Icon ,  List, ListItem} from 'react-native-elements'
+import { Icon , List, ListItem} from 'react-native-elements'
 import {Actions, DefaultRenderer} from 'react-native-router-flux';
 import { ListApplications , resetApplicationForm } from '../../../API/Applications';
 import Constants from '../../../constants/Constants';
 import TopBar from '../../../components/TopBar';
+import base64 from 'react-native-base64';
 
 export default class HomeScreen extends React.Component {
   	constructor(props) {
-		super(props);    
-		this.state = { Applications : [] , currentUser : [], refreshing: false, loader:false };	
-	}
-	
+		super(props);
+
+
+
+		this.state  = { Applications : [] , currentUser : [], refreshing: false, loader:false };
+
+  }
+
+  writeToClipboard = async (link,applicationName) => {
+    alert(link);
+    await Clipboard.setString(link);
+    alert('Public URL for application : '+applicationName+' has been copied to clipboard.');
+  };
+
 	componentDidMount = () =>{
 		this.setState({ loader:true });
-		AsyncStorage.getItem('userData').then((value) =>{ 	
-			this.setState({ currentUser: JSON.parse(value) }) 
-			this._listAll();	
-		})	
+		AsyncStorage.getItem('userData').then((value) =>{
+			this.setState({ currentUser: JSON.parse(value) })
+
+      var userId    = this.state.currentUser.id;
+      var companyId = this.state.currentUser.company_id;
+  		companyId = (companyId=="" || companyId==null)?'0':companyId;
+      this.setState({ userId: userId })
+      this.setState({ companyId: companyId })
+
+			this._listAll();
+		})
 	}
-	
-	_listAll = () =>{		
+
+	_listAll = () =>{
 		ListApplications().then(result => {
 			console.log(result.data)
 			this.setState({ Applications: result.data, loader:false })
 		})
 	}
-	
+
 	_onRefresh = () => {
 		this._listAll();
 	}
 
-	
+
 	dateTime = (UNIX_timestamp) =>{
 	  var a = new Date(UNIX_timestamp * 1000);
 	  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -63,7 +82,7 @@ export default class HomeScreen extends React.Component {
 		var data = {};
 		data.application_id = id;
 		var companyId = this.state.currentUser.company_id;
-		data.company_id = (companyId=="" || companyId==null)?'0':companyId;		
+		data.company_id = (companyId=="" || companyId==null)?'0':companyId;
 		data.user_id = this.state.currentUser.id;
 		Alert.alert(
 		  'Note : If once you reset this form, your previous changes to this form will be removed. So are you sure you want to reset this form ? ',
@@ -76,7 +95,7 @@ export default class HomeScreen extends React.Component {
 		)
 	}
 
-	
+
 	_resetForm = (data) => {
 		this.setState({ loader:true })
 		console.log(data);
@@ -86,9 +105,9 @@ export default class HomeScreen extends React.Component {
 			alert(result.message);
 
 		});
-	}	
+	}
 
-		
+
   render() {
     return (
      <View style={styles.container}>
@@ -104,7 +123,7 @@ export default class HomeScreen extends React.Component {
 			<Text style={styles.contentHeading}>List Applications</Text>
 		</View>
 
-        <ScrollView 
+        <ScrollView
 			refreshControl={
 			  <RefreshControl
 				refreshing={this.state.refreshing}
@@ -115,24 +134,24 @@ export default class HomeScreen extends React.Component {
             <List>
               {
                 this.state.Applications != undefined && this.state.Applications.map((item) => (
-                	
+  <TouchableOpacity  style={styles.button} onPress={ () => Linking.openURL(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name) } >
                     <ListItem
                       titleStyle ={styles.applicationTitle}
                       subtitleStyle ={styles.applicationSubtitle}
                       title={item.name}
                       subtitle={ this.dateTime(item.created) }
-                      leftIcon={ 
-                                  <Icon 
+                      leftIcon={
+                                  <Icon
                                     name='copy'
                                     type='font-awesome'
                                     size={20}
                                     color={'#f05f40'}
-                                    onPress={() => console.log('copy to clipboard in process')  }
+                                    onPress={() =>  this.writeToClipboard(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name)  }
                                   />
 
-                                }                      
-                      rightIcon={ 
-                                  <Icon 
+                                }
+                      rightIcon={
+                                  <Icon
                                     raised
                                     name='undo'
                                     type='font-awesome'
@@ -143,10 +162,11 @@ export default class HomeScreen extends React.Component {
 
                                 }
                     />
+  </TouchableOpacity>
                 ))
               }
             </List>
-     
+
         </ScrollView>
 
       </View>
@@ -181,7 +201,7 @@ const styles = StyleSheet.create({
 		borderStyle: 'solid',
 		borderLeftWidth: 1,
 		borderLeftColor: 'grey'
-	},	
+	},
 	applicationSubtitle:{
 		marginLeft:10,
 		paddingLeft:10,

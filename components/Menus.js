@@ -21,12 +21,12 @@ export default class Menus extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { selectedMenu : [] , currentUser : [] , dropDown : false };		
+		this.state = { selectedMenu : [] , currentUser : [] , dropDown : false };
 		this.menus = Constants.MENUS;
-		
+
 		this.options = ['My Profile', 'Account Setting', 'Switch Company'];
 	}
-	
+
 	componentDidMount = () => {
 		AsyncStorage.getItem('userData').then((value) =>{
 			this.setState({ currentUser: JSON.parse(value) }) 
@@ -35,26 +35,26 @@ export default class Menus extends React.Component {
 					this.options.splice(this.options.indexOf('Switch Company'), 1);
 				}
 			}
-			 
+			 this.setState({ currentUser: JSON.parse(value) })
 		 })
-		
+
 	}
-	
+
 	Capitalize(str){
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
-	
+
 	_selectedMenu = value =>{
 		const array = this.state.selectedMenu;
-        
-        if (array.indexOf(value) == -1) { 
+
+        if (array.indexOf(value) == -1) {
             array.push(value);
         }else{
             array.splice(array.indexOf(value), 1);
         }
         this.setState({selectedMenu:array});
 	}
-	
+
 	_action = type =>{
 		switch(type){
 			case  'dashboard':
@@ -71,18 +71,18 @@ export default class Menus extends React.Component {
 			break;
 			case  'Upload Attachments':
 				
-			break;
+			break;	
 			case  'invoices':
-				
+				Actions.ListInvoices();
 			break;
 			case  'documents':
 				Actions.ListDocuments();
-				
+
 			break;
 			case  'applications':
 				Actions.ListApplications();
-				
-			break;	
+
+			break;
 			case  'logout':
 				Actions.Auth();
 			break;
@@ -99,7 +99,7 @@ export default class Menus extends React.Component {
 				alert('Something went wrong');
 		}
 	}
-	
+
 	dropDown = () =>{
 		alert('show');
 	}
@@ -122,11 +122,11 @@ export default class Menus extends React.Component {
 				/>
 			</View>
 			</TouchableOpacity>
-			<View style={{  alignItems:'center', marginTop:10 }}>	
+			<View style={{  alignItems:'center', marginTop:10 }}>
 
-				<ModalDropdown  
-					dropdownStyle={ styles.dropdown } 
-					dropdownTextStyle={{ textAlign: 'center',  fontSize: 14 ,color: '#000' }} 
+				<ModalDropdown
+					dropdownStyle={ styles.dropdown }
+					dropdownTextStyle={{ textAlign: 'center',  fontSize: 14 ,color: '#000' }}
 					options={ this.options }
 					onDropdownWillShow = { () => this.setState({ dropDown : true }) }
 					onDropdownWillHide = { () => this.setState({ dropDown : false }) }
@@ -143,9 +143,9 @@ export default class Menus extends React.Component {
 						/>
 					</View >
 				</ModalDropdown>
-				
-			</View>	
-			
+
+			</View>
+
 			<ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={ false } >
 				{ this.menus.map( (item, key) => (
 					this.state.currentUser.accounttype == 'individual' && item.name == 'company' ? null :
@@ -168,9 +168,9 @@ export default class Menus extends React.Component {
 													  color={'#f05f40'}
 													/>
 												</View>
-											) : (<View/>) 
+											) : (<View/>)
 							}
-							
+
 						</TouchableOpacity>
 						<View style={{ paddingLeft:20 }} >
 							{item.subMenu != undefined  && this.state.selectedMenu.indexOf(item.name) > -1 && item.subMenu.map( (subItem, subKey) => (
@@ -185,9 +185,9 @@ export default class Menus extends React.Component {
 									<Text style={styles.controlText} >{ this.Capitalize(subItem.name) }</Text>
 								</TouchableOpacity>
 							))}
-					
-						</View>		
-					</View>		
+
+						</View>
+					</View>
 				))}
 			</ScrollView>
 		</View>
@@ -216,7 +216,7 @@ const styles = ScaledSheet.create({
   },
   button: {
 	alignItems: 'center',
-	flexDirection: 'row',	
+	flexDirection: 'row',
     backgroundColor: 'white',
   },
   dropdown: {
