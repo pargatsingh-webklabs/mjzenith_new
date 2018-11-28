@@ -19,7 +19,7 @@ import { Actions } from 'react-native-router-flux';
 import { signIn } from '../../API/Authorization';
 
 export default class SignIn extends React.Component {
-  
+
 	constructor(props) {
 		super(props);
 		this.state = { email: '', password: '', hidePassword:true,loader:false };
@@ -33,23 +33,23 @@ export default class SignIn extends React.Component {
 	{
 		this.setState({ hidePassword: !this.state.hidePassword });
 	}
-	
+
 	userLogin =()=> {
-	    if (!this.state.email || !this.state.password){ 
+	    if (!this.state.email || !this.state.password){
 			alert('Please fill all fields');
 			return false;
 		}
-		
-		this.setState({loader:true});	
-		
+
+		this.setState({loader:true});
+
 		var data = {} ;
 		data.email = this.state.email;
 		data.password = this.state.password;
-		
+
 		signIn(data).then(response => {
 			this.setState({loader:false});
 			if(response.result == 'success'){
-				AsyncStorage.setItem('userData', JSON.stringify(response.data)); 
+				AsyncStorage.setItem('userData', JSON.stringify(response.data));
 				Actions.Main();
 			}else if( response.result == 'error' ){
 				alert(response.message);
@@ -58,7 +58,7 @@ export default class SignIn extends React.Component {
 			}
 		})
 	}
-	
+
   render() {
     return (
       <View style={styles.container}>
@@ -73,7 +73,7 @@ export default class SignIn extends React.Component {
 			  <TextInput
 				style={styles.input}
 				placeholder='Email'
-				placeholderTextColor="#767676" 				
+				placeholderTextColor="#767676"
 				onChangeText={(text) => this.setState({email:text})}
 				value={this.state.email}
 			  />
@@ -85,12 +85,12 @@ export default class SignIn extends React.Component {
 			  size={20}
 			/>
           </View>
-          
+
           <View style={{ marginTop: 10}}>
 			<TextInput
 				style={styles.input}
 				placeholder='Password'
-				placeholderTextColor="#767676" 
+				placeholderTextColor="#767676"
 				onChangeText={(text) => this.setState({password:text})}
 				value={this.state.password}
 				secureTextEntry = { this.state.hidePassword }
@@ -101,19 +101,19 @@ export default class SignIn extends React.Component {
 				type='entypo'
 				onPress={this.managePasswordVisibility}
 				color='#51bbfc'
-				size={20}			  
+				size={20}
 			/>
 			</View>
 			<View style={{ marginTop: 15}}>
 			  <Text style={styles.forget} onPress={() => Actions.ForgetPass()} >Forget Password ? </Text>
 			</View>
-			
+
 			<View style={{ marginTop: 50}}>
 				<TouchableOpacity style={styles.button} onPress={ () => this.userLogin() } >
 					<Text style={styles.btnText}>Sign in</Text>
 				</TouchableOpacity>
 			</View>
-			
+
 			<View style={{ marginTop: 30}}>
 			  <Text style={styles.signUpText} >Don't have an account? <Text onPress={() => Actions.SignUp()} style={styles.signUpSubText} >Sign Up</Text></Text>
 			</View>
@@ -152,9 +152,9 @@ const styles = ScaledSheet.create({
 	},
 	input:{
 		backgroundColor:'white',
-		height: 60, 
-		borderColor: '#e7e8eb', 
-		borderWidth: 1, 
+		height: 60,
+		borderColor: '#e7e8eb',
+		borderWidth: 1,
 		borderRadius:10,
 		paddingLeft:20,
 		fontWeight:'600'
@@ -165,22 +165,22 @@ const styles = ScaledSheet.create({
 		bottom:20
 	},
 	forget:{
-		textAlign: 'right', 
+		textAlign: 'right',
 		fontWeight:'900',
 		fontSize:12,
-		color:'#232d49' 
+		color:'#232d49'
 	},
 	signUpText:{
-		textAlign: 'center', 
+		textAlign: 'center',
 		fontWeight:'900',
 		fontSize:12,
-		color:'#232d49' 
+		color:'#232d49'
 	},
 	signUpSubText:{
-		textAlign: 'center', 
+		textAlign: 'center',
 		fontWeight:'900',
 		fontSize:12,
-		color:'#f05f40' 
+		color:'#f05f40'
 	},
 	button: {
 		alignItems: 'center',
@@ -198,7 +198,7 @@ const styles = ScaledSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	btnText: { 
+	btnText: {
 		color:'#fff',
 		fontWeight: '700',
 		fontSize:'14@ms0.3'

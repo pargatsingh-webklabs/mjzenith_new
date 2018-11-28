@@ -11,6 +11,8 @@ import AccountSetting from './screens/TabScreens/AccountSetting';
 
 import ListDocuments from './screens/TabScreens/Documents/ListDocuments';
 
+import ListInvoices from './screens/TabScreens/Invoices/ListInvoices';
+
 import ListApplications from './screens/TabScreens/Applications/ListApplications';
 
 
@@ -24,11 +26,11 @@ import ForgetPass from './screens/Authorization/ForgetPass';
 
 
 class RouterComponent extends Component {
-	
+
 	constructor(props) {
 		super(props);
 	}
-	
+
     render() {
         return (
 			<Router>
@@ -37,7 +39,7 @@ class RouterComponent extends Component {
 			            <Scene key="SignIn" component={SignIn}   />
 			            <Scene key="SignUp" component={SignUp}   />
 			            <Scene key="ForgetPass" component={ForgetPass}  />
-						<Scene key="ThankYou" component={ThankYou}   />	 
+						<Scene key="ThankYou" component={ThankYou}   />
 			         </Scene>
 					 <Scene key='Main'  drawer={true}  contentComponent={Menus} type="reset" >
 			            <Scene key="Home" hideNavBar  icon={this.Add} type="reset"  >
@@ -49,19 +51,22 @@ class RouterComponent extends Component {
 			            </Scene>
 			            <Scene key="Profile" hideNavBar  type="replace"  >
 			                <Scene key="MyProfile"  component={MyProfile}  type="replace" />
-			            </Scene>			           
+			            </Scene>
 			            <Scene key="Account" hideNavBar  type="replace"  >
 			                <Scene key="AccountSetting"  component={AccountSetting}  type="replace" />
-			            </Scene>			           
+			            </Scene>
 			            <Scene key="Documents" hideNavBar  icon={this.Add} type="replace"  >
 			                <Scene key="ListDocuments" hideNavBar  component={ListDocuments}  type="replace" />
 			            </Scene>
-			            <Scene key="Applications" hideNavBar  icon={this.Add} type="replace"  >
-			                <Scene key="ListApplications" hideNavBar  component={ListApplications}  type="replace" />
-			            </Scene>
+									<Scene key="Applications" hideNavBar  icon={this.Add} type="replace"  >
+											<Scene key="ListApplications" hideNavBar  component={ListApplications}  type="replace" />
+									</Scene>
+									<Scene key="Invoices" hideNavBar  icon={this.Add} type="replace"  >
+											<Scene key="ListInvoices" hideNavBar  component={ListInvoices}  type="replace" />
+									</Scene>
 			        </Scene>
 			    </Scene>
-			</Router>            
+			</Router>
         );
     }
 };
