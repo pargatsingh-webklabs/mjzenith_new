@@ -12,27 +12,26 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { ScaledSheet } from 'react-native-size-matters';
 import { Icon ,  List, ListItem} from 'react-native-elements'
 import {Actions, DefaultRenderer} from 'react-native-router-flux';
-import { ListCompanies, deleteCompany } from '../../../API/Company';
+import { ListCompanies } from '../../../API/Company';
 import TopBar from '../../../components/TopBar';
 
-export default class HomeScreen extends React.Component {
+export default class SwitchCompany extends React.Component {
   	constructor(props) {
 		super(props);    
-		this.state = { Companies : [] , currentUser : [], refreshing: false, loader:false };	
+		this.state = { Companies : [] , currentUser : [], refreshing: false, loader:false, selectedRadio: '' };	
 	}
 	
 	componentDidMount = () =>{
 		this.setState({ loader:true });
 		AsyncStorage.getItem('userData').then((value) =>{ 	
 			this.setState({ currentUser: JSON.parse(value) }) 
+			this.setState({ selectedRadio: this.state.currentUser.company_id }) 
 			this._listAll();
 			
 		})
-		
-		
 	}
 	
 	_listAll = () =>{
@@ -61,26 +60,15 @@ export default class HomeScreen extends React.Component {
 	  return time;
 	}
 	
-	deleteCompany = (id) =>{
-		var data = {};
-		data.id = id;
-		Alert.alert(
-		  'Are you sure you want to delete company!',
-		  '',
-		  [
-			{text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-			{text: 'OK', onPress: () =>  this._deleteCompany(data) },
-		  ],
-		  { cancelable: false }
-		)
-	}
-	
-	_deleteCompany = (data) => {
-		this.setState({ loader:true })
-		deleteCompany(data).then(result => {
-			this.setState({  loader: false });
-			this._listAll();
-		});
+	_submit = () => {
+		if ( !this.state.selectedRadio ){ 
+			alert('Please select any company');
+			return false;
+		}
+		this.state.currentUser.company_id = this.state.selectedRadio;
+		AsyncStorage.setItem('userData', JSON.stringify(this.state.currentUser)); 
+		alert('Company  has been switched ')
+		Actions.Main();
 	}
 	
   render() {
@@ -88,7 +76,7 @@ export default class HomeScreen extends React.Component {
      <View style={styles.container}>
 		<TopBar />
 		<View >
-            <Text style={styles.contentHeading}>List Companies</Text>
+            <Text style={styles.contentHeading}>Switch Company</Text>
         </View>
 		<View style={styles.loderBackground}>
 		  <ActivityIndicator
@@ -107,29 +95,34 @@ export default class HomeScreen extends React.Component {
             <List>
               {
                 this.state.Companies != undefined && this.state.Companies.map((item) => (
-                  <TouchableOpacity   key={item.id} style={styles.button} onPress={ () => Actions.AddCompany({ CompanyId: item.id }) } >
+                  <TouchableOpacity   key={item.id}  onPress={ () => this.setState({selectedRadio : item.id }) } >
                     <ListItem
                       titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
                       title={item.name}
                       subtitle={ this.dateTime(item.created) }
                       rightIcon={ 
-                                  <Icon
-                                    raised
-                                    name='bitbucket'
-                                    type='font-awesome'
-                                    size={20}
-                                    color={'#fc0399'}
-                                    onPress={() => this.deleteCompany(item.id) }
-                                  />
-
+									<Icon
+										name= { this.state.selectedRadio == item.id ? 'radio-button-checked' : 'radio-button-unchecked' }
+										type='materialIcons'
+										size={30}
+										color={'#f05f40'}
+										onPress={() => this.setState({selectedRadio : item.id }) }
+									/>
                                 }
-
                     />
                 </TouchableOpacity>
                 ))
               }
             </List>
-     
+            { this.state.Companies != '' ?
+				<View style={{ marginTop: 30}}>
+					<TouchableOpacity style={styles.button} onPress={ () => this._submit() } >
+						<Text style={styles.btnText}>Switch Company</Text>
+					</TouchableOpacity>
+				</View>
+				: null
+			}
+			
         </ScrollView>
 
       </View>
@@ -139,7 +132,7 @@ export default class HomeScreen extends React.Component {
 
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
@@ -164,4 +157,16 @@ const styles = StyleSheet.create({
         fontSize:25,
         fontWeight:'600'
     },
+	button: {
+		alignItems: 'center',
+		backgroundColor: '#f05f40',
+		padding: 20,
+		borderRadius:10,
+		fontWeight:'600',
+	},
+	btnText: { 
+		color:'#fff',
+		fontWeight: '700',
+		fontSize:'14@ms0.3'
+	},
 });

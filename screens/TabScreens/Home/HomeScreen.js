@@ -6,32 +6,103 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  FlatList,
   AsyncStorage,
   View,
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import {Actions, DefaultRenderer} from 'react-native-router-flux';
-
+import Constants from '../../../constants/Constants';
 import TopBar from '../../../components/TopBar';
 
 export default class HomeScreen extends React.Component {
   	constructor(props) {
 		super(props);
+		this.state = { currentUser : [] };		
+		this.menus = Constants.MENUS;
 	}
-   //~ componentDidMount = () => AsyncStorage.getItem('userData').then((value) => console.log(value))
+	
+   	componentDidMount = () => {
+		AsyncStorage.getItem('userData').then((value) =>{
+			this.setState({ currentUser: JSON.parse(value) }) 
+		 })
+	}
+	
+	Capitalize(str){
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+	
+	_action = type =>{
+		switch(type){
+			case  'dashboard':
+				Actions.Main();
+			break;
+			case  'company':
+				Actions.ListCompanies();
+			break;
+			case  'Add Company':
+				Actions.AddCompany();
+			break;
+			case  'attachments':
+				
+			break;
+			case  'Upload Attachments':
+				
+			break;
+			case  'invoices':
+				
+			break;
+			case  'documents':
+				Actions.ListDocuments();
+				
+			break;
+			case  'applications':
+				Actions.ListApplications();
+				
+			break;	
+			case  'logout':
+				Actions.Auth();
+			break;
+			case  'My Profile':
+				Actions.MyProfile();
+			break;
+			case  'Account Setting':
+				Actions.AccountSetting();
+			break;
+			case  'Switch Company':
+				Actions.SwitchCompany();
+			break;
+			default:
+				alert('Something went wrong');
+		}
+	}
+	
   render() {
     return (
      <View style={styles.container}>
 		<TopBar />
-        <ScrollView  contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={ require('../../../assets/images/logo-150x150.png')}
-              style={styles.welcomeImage}
-            />
-          </View>
-        </ScrollView>
-
+		<View >
+			<Text style={styles.contentHeading}>Dashboard</Text>
+		</View>
+       <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={ false } >
+			<FlatList contentContainerStyle={{  alignItems: 'center', marginTop: 20, }}
+			  data={ this.state.currentUser.accounttype == 'individual' ? Constants.MENUS_WIHOUT_COMP : this.menus  }
+			  numColumns={2}
+			  keyExtractor={(item, index) => item.id }
+			  renderItem={(item) => 
+					item.item.name == 'logout' ? null :
+						<TouchableOpacity  style={{marginLeft:30,marginRight:30}} onPress={ () =>  this._action(item.item.name)  } >
+							<Icon
+							  raised
+							  name={ item.item.icon }
+							  type={ item.item.iconType }
+							  size={ 40 }
+							  color={ item.item.iconColor }
+							/>
+							<Text style={styles.controlText} >{ this.Capitalize(item.item.name) }</Text>
+						</TouchableOpacity> }
+			/>
+			</ScrollView>
       </View>
     );
   }
@@ -60,5 +131,15 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginLeft: -10,
   },
+	contentHeading: {
+        paddingTop: 20,
+        paddingBottom:0,
+        textAlign:"center",
+        fontSize:25,
+        fontWeight:'600'
+    },
+    controlText:{
+		textAlign:"center",
+	}
 
 });

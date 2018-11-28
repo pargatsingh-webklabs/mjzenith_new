@@ -14,6 +14,7 @@ import ListDocuments from './screens/TabScreens/Documents/ListDocuments';
 import ListApplications from './screens/TabScreens/Applications/ListApplications';
 
 
+import SwitchCompany from './screens/TabScreens/Company/SwitchCompany';
 import ListCompanies from './screens/TabScreens/Company/ListCompanies';
 import AddCompany from './screens/TabScreens/Company/AddCompany';
 
@@ -38,6 +39,7 @@ class RouterComponent extends Component {
 			            <Scene key="SignUp" component={SignUp}   />
 			            <Scene key="ForgetPass" component={ForgetPass}  />
 						<Scene key="ThankYou" component={ThankYou}   />	 
+						<Scene key="Menus" component={Menus}  type="reset" />	 
 			         </Scene>
 					 <Scene key='Main'  drawer={true}  contentComponent={Menus} type="reset" >
 			            <Scene key="Home" hideNavBar  icon={this.Add} type="reset"  >
@@ -46,6 +48,7 @@ class RouterComponent extends Component {
 			            <Scene key="Company" hideNavBar  icon={this.Add} type="replace"  >
 			                <Scene key="ListCompanies" hideNavBar  component={ListCompanies}  type="replace" />
 			                <Scene key="AddCompany"  hideNavBar component={AddCompany} type="replace"   />
+			                <Scene key="SwitchCompany"  hideNavBar component={SwitchCompany} type="replace"   />
 			            </Scene>
 			            <Scene key="Profile" hideNavBar  type="replace"  >
 			                <Scene key="MyProfile"  component={MyProfile}  type="replace" />

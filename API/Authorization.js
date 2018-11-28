@@ -1,9 +1,13 @@
 import React from 'react';
+import { Permissions, Notifications } from 'expo';
 import Constants from '../constants/Constants';
 
-export const signIn = (params) => {
+export const signIn = async (params) => {
+   let token = await Notifications.getExpoPushTokenAsync();
    return new Promise((resolve, reject) => {  
 		try {	
+			  params.device_token = token;
+			  
 			var formData = new FormData();
 
 			for (var k in params) {
