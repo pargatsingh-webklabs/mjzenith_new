@@ -12,7 +12,8 @@ import {
   ActivityIndicator,
   Alert,
   Linking,
-  Clipboard
+  Clipboard,
+  WebView
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { Icon , List, ListItem} from 'react-native-elements'
@@ -25,17 +26,18 @@ import base64 from 'react-native-base64';
 export default class HomeScreen extends React.Component {
   	constructor(props) {
 		super(props);
-
-
-
-		this.state  = { Applications : [] , currentUser : [], refreshing: false, loader:false };
-
+		this.state  = { Applications : [] , currentUser : [], refreshing : false, loader : false  };
   }
 
   writeToClipboard = async (link,applicationName) => {
     alert(link);
     await Clipboard.setString(link);
     alert('Public URL for application : '+applicationName+' has been copied to clipboard.');
+  };
+
+  openWebView = async (link) => {
+    this.setState({ loader:true });
+    Actions.WebViewPage({'link':link});
   };
 
 	componentDidMount = () =>{
@@ -110,6 +112,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
+
      <View style={styles.container}>
 		<TopBar />
 		<View style={styles.loderBackground}>
@@ -123,7 +126,7 @@ export default class HomeScreen extends React.Component {
 			<Text style={styles.contentHeading}>List Applications</Text>
 		</View>
 
-        <ScrollView
+    <ScrollView
 			refreshControl={
 			  <RefreshControl
 				refreshing={this.state.refreshing}
@@ -134,35 +137,33 @@ export default class HomeScreen extends React.Component {
             <List>
               {
                 this.state.Applications != undefined && this.state.Applications.map((item) => (
-  <TouchableOpacity  style={styles.button} onPress={ () => Linking.openURL(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name) } >
+                  <TouchableOpacity  style={styles.button} onPress={ () => this.openWebView(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name) } >
                     <ListItem
                       titleStyle ={styles.applicationTitle}
                       subtitleStyle ={styles.applicationSubtitle}
                       title={item.name}
                       subtitle={ this.dateTime(item.created) }
                       leftIcon={
-                                  <Icon
-                                    name='copy'
-                                    type='font-awesome'
-                                    size={20}
-                                    color={'#f05f40'}
-                                    onPress={() =>  this.writeToClipboard(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name)  }
-                                  />
-
+                                <Icon
+                                  name='copy'
+                                  type='font-awesome'
+                                  size={20}
+                                  color={'#f05f40'}
+                                  onPress={() =>  this.writeToClipboard(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name)  }
+                                />
                                 }
                       rightIcon={
-                                  <Icon
-                                    raised
-                                    name='undo'
-                                    type='font-awesome'
-                                    size={20}
-                                    color={'#19B31F'}
-                                    onPress={() => this.resetForm(item.id)  }
-                                  />
-
+                                <Icon
+                                  raised
+                                  name='undo'
+                                  type='font-awesome'
+                                  size={20}
+                                  color={'#19B31F'}
+                                  onPress={() => this.resetForm(item.id)  }
+                                />
                                 }
                     />
-  </TouchableOpacity>
+                    </TouchableOpacity>
                 ))
               }
             </List>

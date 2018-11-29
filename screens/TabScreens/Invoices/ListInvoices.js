@@ -27,6 +27,11 @@ export default class HomeScreen extends React.Component {
 		this.state = { Invoices : [] , currentUser : [], refreshing: false, loader:false };
 	}
 
+    openWebView = async (link) => {
+      this.setState({ loader:true });
+      Actions.WebViewPage({'link':link});
+    };
+
 	componentDidMount = () =>{
 		this.setState({ loader:true });
 		AsyncStorage.getItem('userData').then((value) =>{
@@ -95,7 +100,7 @@ export default class HomeScreen extends React.Component {
               {
                 this.state.Invoices != undefined && this.state.Invoices.map((item) => (
 
-                <TouchableOpacity style={styles.button} onPress={ () => Linking.openURL(Constants.BASEURL+'admin/login/preview_invoice/?iid='+base64.encode(item.id)) } >
+                <TouchableOpacity style={styles.button} onPress={ () => this.openWebView(Constants.BASEURL+'admin/login/preview_invoice/?iid='+base64.encode(item.id)) } >
                     <ListItem
                       containerStyle = {{backgroundColor:item.badgeContainer}}
                       badge={{ value: item.statusBadge ,containerStyle:{backgroundColor:item.badgeColor}, textStyle: { color: '#fff' } }}
@@ -103,17 +108,17 @@ export default class HomeScreen extends React.Component {
                       subtitleStyle ={styles.subtitleText}
                       title={'INV-'+item.invoice_no}
                       subtitle={ "Due Date : "+this.dateTime(item.due_date) }
-                      rightIcon={ (item.status!=1)?
-                                  <Icon
-                                    raised
-                                    name='ios-finger-print'
-                                    type='ionicon'
-                                    size={20}
-                                    color={'#19B31F'}
-                                    onPress={() => console.log('test')  }
-                                  />
-                                  :''
-                                }
+                      // rightIcon={ (item.status!=1)?
+                      //             <Icon
+                      //               raised
+                      //               name='ios-finger-print'
+                      //               type='ionicon'
+                      //               size={20}
+                      //               color={'#19B31F'}
+                      //               onPress={() => console.log('test')  }
+                      //             />
+                      //             :''
+                      //           }
                     />
                 </TouchableOpacity>
 
