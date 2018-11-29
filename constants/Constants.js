@@ -1,5 +1,5 @@
-const apiUrl = 'http://mjzenith.com/api/';
-const downloadUrl = 'http://mjzenith.com/';
+const apiUrl = 'https://mjzenith.com/api/';
+const downloadUrl = 'https://mjzenith.com/'; 
 
 export default {
 	BASEURL 								: downloadUrl,
@@ -43,21 +43,21 @@ export default {
 			}
 		],
 	MENUS_WIHOUT_COMP : [
-			{ id: 1, name: 'dashboard', icon: 'home' , iconType: 'font-awesome', iconColor: '#f05f40' , iconSize: 20 
+			{ id: 1, name: 'dashboard', icon: 'home' , iconType: 'font-awesome', iconColor: '#f05f40' , iconSize: 20
 			},
 			{ id: 5, name: 'attachments', icon: 'files-o' , iconType: 'font-awesome', iconColor: '#f05f40' , iconSize: 20 ,
 				subMenu: [
-							{ id: 6, name: 'List Attachments', icon: 'files-o' , iconColor: '#54667a' , iconSize: 15 , iconType: 'font-awesome'  }, 
+							{ id: 6, name: 'List Attachments', icon: 'files-o' , iconColor: '#54667a' , iconSize: 15 , iconType: 'font-awesome'  },
 							{ id: 7, name: 'Upload Attachments', icon: 'files-o' , iconColor: '#54667a' , iconSize: 15 , iconType: 'font-awesome'  }
-				] 
+				]
 			},
-			{ id: 8, name: 'invoices', icon: 'clipboard' , iconType: 'font-awesome', iconColor: '#f05f40' , iconSize: 20 
+			{ id: 8, name: 'invoices', icon: 'clipboard' , iconType: 'font-awesome', iconColor: '#f05f40' , iconSize: 20
 			},
-			{ id: 9, name: 'documents', icon: 'file-text' , iconType: 'feather', iconColor: '#f05f40' , iconSize: 20 
+			{ id: 9, name: 'documents', icon: 'file-text' , iconType: 'feather', iconColor: '#f05f40' , iconSize: 20
 			},
 			{ id: 10, name: 'applications', icon: 'file-text' , iconType: 'feather', iconColor: '#f05f40' , iconSize: 20
 			},
-			{ id: 11, name: 'logout', icon: 'log-out' , iconType: 'entypo', iconColor: '#f05f40' , iconSize: 20 
+			{ id: 11, name: 'logout', icon: 'log-out' , iconType: 'entypo', iconColor: '#f05f40' , iconSize: 20
 			}
 		],
 

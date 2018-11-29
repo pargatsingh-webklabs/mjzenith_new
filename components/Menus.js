@@ -29,8 +29,8 @@ export default class Menus extends React.Component {
 
 	componentDidMount = () => {
 		AsyncStorage.getItem('userData').then((value) =>{
-			this.setState({ currentUser: JSON.parse(value) }) 
-			if(this.state.currentUser.accounttype == 'individual'){ 
+			this.setState({ currentUser: JSON.parse(value) })
+			if(this.state.currentUser.accounttype == 'individual'){
 				if (this.options.indexOf('Switch Company') > -1) {
 					this.options.splice(this.options.indexOf('Switch Company'), 1);
 				}
@@ -67,11 +67,11 @@ export default class Menus extends React.Component {
 				Actions.AddCompany();
 			break;
 			case  'List Attachments':
-				
+
 			break;
 			case  'Upload Attachments':
-				
-			break;	
+
+			break;
 			case  'invoices':
 				Actions.ListInvoices();
 			break;
@@ -94,6 +94,9 @@ export default class Menus extends React.Component {
 			break;
 			case  'Switch Company':
 				Actions.SwitchCompany();
+			break;
+      case  'WebView':
+				Actions.WebViewPage();
 			break;
 			default:
 				alert('Something went wrong');

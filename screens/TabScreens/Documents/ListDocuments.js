@@ -22,36 +22,43 @@ import TopBar from '../../../components/TopBar';
 
 export default class HomeScreen extends React.Component {
   	constructor(props) {
-		super(props);    
-		this.state = { Documents : [] , currentUser : [], refreshing: false, loader:false };	
+		super(props);
+		this.state = { Documents : [] , currentUser : [], refreshing: false, loader:false };
 	}
-	
+
+
+  openWebView = async (link) => {
+    this.setState({ loader:true });
+    Actions.WebViewPage({'link':link});
+  };
+
 	componentDidMount = () =>{
 		this.setState({ loader:true });
-		AsyncStorage.getItem('userData').then((value) =>{ 	
-			this.setState({ currentUser: JSON.parse(value) }) 
+		AsyncStorage.getItem('userData').then((value) =>{
+			this.setState({ currentUser: JSON.parse(value) })
 			this._listAll();
-			
+
 		})
-		
-		
+
+
 	}
-	
+
 	_listAll = () =>{
 		var data = {};
 		var companyId = this.state.currentUser.company_id;
-		data.company_id = (companyId=="" || companyId==null)?'0':companyId;		
-		data.user_id = this.state.currentUser.id;		
+		data.company_id = (companyId=="" || companyId==null)?'0':companyId;
+		data.user_id = this.state.currentUser.id;
+    console.log(data);
 		ListDocuments(data).then(result => {
 			console.log(result.data)
 			this.setState({ Documents: result.data, loader:false })
 		})
 	}
-	
+
 	_onRefresh = () => {
 		this._listAll();
 	}
-	
+
 	dateTime = (UNIX_timestamp) =>{
 	  var a = new Date(UNIX_timestamp * 1000);
 	  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -64,7 +71,7 @@ export default class HomeScreen extends React.Component {
 	  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
 	  return time;
 	}
-	
+
 	deleteCompany = (id) =>{
 		var data = {};
 		data.id = id;
@@ -78,7 +85,7 @@ export default class HomeScreen extends React.Component {
 		  { cancelable: false }
 		)
 	}
-	
+
 	_deleteCompany = (data) => {
 		this.setState({ loader:true })
 		deleteCompany(data).then(result => {
@@ -86,7 +93,7 @@ export default class HomeScreen extends React.Component {
 			this._listAll();
 		});
 	}
-	
+
   render() {
     return (
      <View style={styles.container}>
@@ -101,7 +108,7 @@ export default class HomeScreen extends React.Component {
 		<View >
 			<Text style={styles.contentHeading}>List Documents</Text>
 		</View>
-        <ScrollView 
+        <ScrollView
 			refreshControl={
 			  <RefreshControl
 				refreshing={this.state.refreshing}
@@ -116,14 +123,14 @@ export default class HomeScreen extends React.Component {
                       titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
                       title={item.document}
                       subtitle={ this.dateTime(item.created) }
-                      rightIcon={ 
-                                  <Icon 
+                      rightIcon={
+                                  <Icon
                                     raised
                                     name='eye'
                                     type='font-awesome'
                                     size={20}
                                     color={'#19B31F'}
-                                    onPress={() => Linking.openURL(Constants.VIEW_DOWNLOAD_DOCUMENT+item.document)  }
+                                    onPress={ () => this.openWebView(Constants.VIEW_DOWNLOAD_DOCUMENT+item.document)  }
                                   />
 
                                 }
@@ -131,7 +138,7 @@ export default class HomeScreen extends React.Component {
                 ))
               }
             </List>
-     
+
         </ScrollView>
 
       </View>
