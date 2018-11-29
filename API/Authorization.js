@@ -32,6 +32,36 @@ export const signIn = async (params) => {
 	});
 }
 
+export const clearUserToken = async (params) => {
+   let token = await Notifications.getExpoPushTokenAsync();
+   return new Promise((resolve, reject) => {  
+		try {	
+			  params.device_token = token;
+			  
+			var formData = new FormData();
+
+			for (var k in params) {
+				formData.append(k, params[k]);
+			}
+
+			fetch(Constants.CLEAR_USER_TOKEN, {
+				  method: 'POST',
+				  headers: {
+					'Content-Type': 'multipart/form-data',
+				  },
+				  body: formData
+			})
+			.then((response) => response.json())
+			.then((responseJson) => {
+				resolve(responseJson);
+			})
+	
+		} catch(err) {
+			reject(err.message);
+		}
+	});
+}
+
 export const signUp = (params) => {
    return new Promise((resolve, reject) => {  
 		try {	

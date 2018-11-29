@@ -4,21 +4,52 @@ import {
   Text,
   TouchableOpacity,
   View,
+  AsyncStorage,
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { Actions } from 'react-native-router-flux';
+import { userNotifyCount } from '../API/Notifications';
 
 export default class TopBar extends React.Component {
+	
+	constructor(props) {
+		super(props);
+		this.state = { notifyCount : '', currentUser : [] };
+	}
+	
+	componentDidMount = () => {
+		var data = {};
+		
+		AsyncStorage.getItem('userData').then((value) =>{
+			this.setState({ currentUser: JSON.parse(value) }) 
+			
+			data.user_id = this.state.currentUser.id;
+			
+			userNotifyCount(data).then((result) =>{
+				this.setState({ notifyCount: result.data.unread }) 
+			})
+		})
+	}
+	
   render() {
     return (
       <View style={ styles.bar } >
-			<TouchableOpacity style={{alignItems: 'flex-start',}} onPress={() => Actions.drawerToggle() }>
+			<TouchableOpacity  onPress={() => Actions.drawerToggle() }>
 				<Icon
 				  name='bars'
 				  type='font-awesome'
-				  size={40}
+				  size={30}
 				  color={'#fff'}				 
 				/>
+			</TouchableOpacity>
+			<TouchableOpacity onPress={() => Actions.Notifications() } >
+				<Icon
+				  name='notifications'
+				  type='materialIcons'
+				  size={30}
+				  color={'#fff'}				 
+				/>
+				{ this.state.notifyCount ? (<Text style={ styles.notiBadge }>{ this.state.notifyCount }</Text>) : null }
 			</TouchableOpacity>
 		</View>
     );
@@ -26,11 +57,26 @@ export default class TopBar extends React.Component {
 }
 const styles = StyleSheet.create({
 	bar: {
+		justifyContent: 'space-between',
+		flexDirection: 'row',
 		paddingTop:20,
 		paddingBottom:10,
 		paddingLeft:20,
 		paddingRight:20,
 		backgroundColor: '#f05f40',
 	},
+	notiBadge:{
+		textAlign:'center',
+		marginTop:-35,
+		marginLeft:20,
+		backgroundColor: '#000',
+		borderWidth: 1,
+		borderColor: '#000',
+		borderRadius: 10,
+		height: 20,
+		width: 20,
+		color: '#fff',
+		overflow:"hidden"	
+	}
 
 });

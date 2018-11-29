@@ -15,6 +15,7 @@ import ListInvoices from './screens/TabScreens/Invoices/ListInvoices';
 
 import ListApplications from './screens/TabScreens/Applications/ListApplications';
 
+import Notifications from './screens/TabScreens/Notifications';
 
 import SwitchCompany from './screens/TabScreens/Company/SwitchCompany';
 import ListCompanies from './screens/TabScreens/Company/ListCompanies';
@@ -66,6 +67,9 @@ class RouterComponent extends Component {
 						</Scene>
 						<Scene key="Invoices" hideNavBar  icon={this.Add} type="replace"  >
 								<Scene key="ListInvoices" hideNavBar  component={ListInvoices}  type="replace" />
+						</Scene>
+						<Scene key="Notify" hideNavBar  icon={this.Add} type="replace"  >
+								<Scene key="Notifications" hideNavBar  component={Notifications}  type="replace" />
 						</Scene>
 			        </Scene>
 			    </Scene>

@@ -15,6 +15,8 @@ import { Icon, Avatar } from 'react-native-elements'
 import { ScaledSheet } from 'react-native-size-matters';
 import { Actions } from 'react-native-router-flux';
 import Constants from '../constants/Constants';
+import { clearUserToken } from '../API/Authorization';
+
 import ModalDropdown from 'react-native-modal-dropdown';
 
 export default class Menus extends React.Component {
@@ -84,7 +86,12 @@ export default class Menus extends React.Component {
 
 			break;
 			case  'logout':
-				Actions.Auth();
+				clearUserToken(this.state.currentUser).then((value) =>{
+					AsyncStorage.clear();
+					AsyncStorage.getItem('userData').then((value) =>{
+						Actions.Auth();
+					})
+				});
 			break;
 			case  'My Profile':
 				Actions.MyProfile();
