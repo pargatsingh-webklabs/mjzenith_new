@@ -49,7 +49,13 @@ export default class SignIn extends React.Component {
 		signIn(data).then(response => {
 			this.setState({loader:false});
 			if(response.result == 'success'){
+				
+				if(response.data.accounttype == 'individual'){
+					response.menus.splice(response.menus.indexOf(response.menus[1]), 1);
+				}
+				
 				AsyncStorage.setItem('userData', JSON.stringify(response.data));
+				AsyncStorage.setItem('menus', JSON.stringify(response.menus));
 				Actions.Main();
 			}else if( response.result == 'error' ){
 				alert(response.message);
