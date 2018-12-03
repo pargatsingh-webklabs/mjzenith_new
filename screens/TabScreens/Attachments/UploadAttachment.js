@@ -59,7 +59,7 @@ export default class HomeScreen extends React.Component {
 			animating={this.state.loader} />
 		</View>
 		<View >
-			<Text style={styles.contentHeading}>List Applications</Text>
+			<Text style={styles.contentHeading}>Upload Attachment</Text>
 		</View>
 
           <WebView

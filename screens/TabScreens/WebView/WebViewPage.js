@@ -59,9 +59,12 @@ export default class HomeScreen extends React.Component {
           size="large"
           animating={this.state.loader} />
         </View>
-        <WebView
-          source={{uri: this.state.webviewURI}}
-        />
+
+          <WebView
+            style={{marginTop: '100', height: '200'}}
+            source={{uri: this.state.webviewURI}}
+          />
+
       </View>
     );
   }

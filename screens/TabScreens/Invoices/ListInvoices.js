@@ -106,7 +106,7 @@ export default class HomeScreen extends React.Component {
                       badge={{ value: item.statusBadge ,containerStyle:{backgroundColor:item.badgeColor}, textStyle: { color: '#fff' } }}
                       titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
                       subtitleStyle ={styles.subtitleText}
-                      title={'INV-'+item.invoice_no}
+                      title={'INV-'+item.id}
                       subtitle={ "Due Date : "+this.dateTime(item.due_date) }
                       // rightIcon={ (item.status!=1)?
                       //             <Icon
