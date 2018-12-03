@@ -18,19 +18,20 @@ import TopBar from '../../../components/TopBar';
 export default class HomeScreen extends React.Component {
   	constructor(props) {
 		super(props);
-		this.state = { currentUser : [] };		
+		this.state = { currentUser : [], menus : [] };		
 		this.menus = Constants.MENUS;
 	}
 	
    	componentDidMount = () => {
+		AsyncStorage.getItem('menus').then((result) =>{
+			this.setState({ menus: JSON.parse(result) })
+		})
+		
 		AsyncStorage.getItem('userData').then((value) =>{
 			this.setState({ currentUser: JSON.parse(value) }) 
 		 })
 	}
 	
-	Capitalize(str){
-		return str.charAt(0).toUpperCase() + str.slice(1);
-	}
 	
 	_action = type =>{
 		switch(type){
@@ -40,42 +41,34 @@ export default class HomeScreen extends React.Component {
 			case  'company':
 				Actions.ListCompanies();
 			break;
-			case  'Add Company':
-				Actions.AddCompany();
-			break;
+
 			case  'attachments':
-				
-			break;
-			case  'Upload Attachments':
-				
+
 			break;
 			case  'invoices':
-				
+				Actions.ListInvoices();
 			break;
 			case  'documents':
 				Actions.ListDocuments();
-				
+
 			break;
 			case  'applications':
 				Actions.ListApplications();
-				
-			break;	
+
+			break;
 			case  'logout':
-				Actions.Auth();
-			break;
-			case  'My Profile':
-				Actions.MyProfile();
-			break;
-			case  'Account Setting':
-				Actions.AccountSetting();
-			break;
-			case  'Switch Company':
-				Actions.SwitchCompany();
+				clearUserToken(this.state.currentUser).then((value) =>{
+					AsyncStorage.clear();
+					AsyncStorage.getItem('userData').then((value) =>{
+						Actions.Auth();
+					})
+				});
 			break;
 			default:
 				alert('Something went wrong');
 		}
 	}
+
 	
   render() {
     return (
@@ -86,12 +79,12 @@ export default class HomeScreen extends React.Component {
 		</View>
        <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={ false } >
 			<FlatList contentContainerStyle={{  alignItems: 'center', marginTop: 20, }}
-			  data={ this.state.currentUser.accounttype == 'individual' ? Constants.MENUS_WIHOUT_COMP : this.menus  }
+			  data={  this.state.menus  }
 			  numColumns={2}
 			  keyExtractor={(item, index) => item.id }
 			  renderItem={(item) => 
-					item.item.name == 'logout' ? null :
-						<TouchableOpacity  style={{marginLeft:30,marginRight:30}} onPress={ () =>  this._action(item.item.name)  } >
+					item.item.slug == 'logout' ? null :
+						<TouchableOpacity  style={{marginLeft:30,marginRight:30}} onPress={ () =>  this._action(item.item.slug)  } >
 							<Icon
 							  raised
 							  name={ item.item.icon }
@@ -99,7 +92,7 @@ export default class HomeScreen extends React.Component {
 							  size={ 40 }
 							  color={ item.item.iconColor }
 							/>
-							<Text style={styles.controlText} >{ this.Capitalize(item.item.name) }</Text>
+							<Text style={styles.controlText} >{ item.item.name }</Text>
 						</TouchableOpacity> }
 			/>
 			</ScrollView>

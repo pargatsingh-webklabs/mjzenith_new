@@ -23,13 +23,18 @@ export default class Menus extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { selectedMenu : [] , currentUser : [] , dropDown : false };
+		this.state = { selectedMenu : [], menus : [] , currentUser : [] , dropDown : false };
 		this.menus = Constants.MENUS;
 
 		this.options = ['My Profile', 'Account Setting', 'Switch Company'];
 	}
 
 	componentDidMount = () => {
+
+		AsyncStorage.getItem('menus').then((value) =>{
+			this.setState({ menus: JSON.parse(value) })
+		})
+
 		AsyncStorage.getItem('userData').then((value) =>{
 			this.setState({ currentUser: JSON.parse(value) })
 			if(this.state.currentUser.accounttype == 'individual'){
@@ -41,11 +46,6 @@ export default class Menus extends React.Component {
 		 })
 
 	}
-
-	Capitalize(str){
-		return str.charAt(0).toUpperCase() + str.slice(1);
-	}
-
 	_selectedMenu = value =>{
 		const array = this.state.selectedMenu;
 
@@ -62,10 +62,10 @@ export default class Menus extends React.Component {
 			case  'dashboard':
 				Actions.Main();
 			break;
-			case  'List Company':
+			case  'list_company':
 				Actions.ListCompanies();
 			break;
-			case  'Add Company':
+			case  'add_company':
 				Actions.AddCompany();
 			break;
 			case  'List Attachments':
@@ -102,7 +102,7 @@ export default class Menus extends React.Component {
 			case  'Switch Company':
 				Actions.SwitchCompany();
 			break;
-      case  'WebView':
+			case  'WebView':
 				Actions.WebViewPage();
 			break;
 			default:
@@ -157,10 +157,10 @@ export default class Menus extends React.Component {
 			</View>
 
 			<ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={ false } >
-				{ this.menus.map( (item, key) => (
+				{ this.state.menus != undefined &&  this.state.menus.map( (item, key) => (
 					this.state.currentUser.accounttype == 'individual' && item.name == 'company' ? null :
 					<View key={ key } >
-						<TouchableOpacity  style={styles.button} onPress={ () => item.subMenu == undefined ? this._action(item.name) : this._selectedMenu(item.name) } >
+						<TouchableOpacity  style={styles.button} onPress={ () => item.subMenu == undefined ? this._action(item.slug) : this._selectedMenu(item.slug) } >
 							<Icon
 							  raised
 							  name={ item.icon }
@@ -168,11 +168,11 @@ export default class Menus extends React.Component {
 							  size={ item.iconSize }
 							  color={ item.iconColor }
 							/>
-							<Text style={styles.controlText} >{ this.Capitalize(item.name) }</Text>
+							<Text style={styles.controlText} >{ item.name }</Text>
 							{ item.subMenu != undefined ? (
 												<View  style={{ position: 'absolute', right: 0 }}	>
 													<Icon
-													  name= { this.state.selectedMenu.indexOf(item.name) > -1 ? 'chevron-small-down' : 'chevron-small-right' }
+													  name= { this.state.selectedMenu.indexOf(item.slug) > -1 ? 'chevron-small-down' : 'chevron-small-right' }
 													  type='entypo'
 													  size={20}
 													  color={'#f05f40'}
@@ -183,8 +183,8 @@ export default class Menus extends React.Component {
 
 						</TouchableOpacity>
 						<View style={{ paddingLeft:20 }} >
-							{item.subMenu != undefined  && this.state.selectedMenu.indexOf(item.name) > -1 && item.subMenu.map( (subItem, subKey) => (
-								<TouchableOpacity key={ subKey } style={styles.button} onPress={ () => this._action(subItem.name) } >
+							{item.subMenu != undefined  && this.state.selectedMenu.indexOf(item.slug) > -1 && item.subMenu.map( (subItem, subKey) => (
+								<TouchableOpacity key={ subKey } style={styles.button} onPress={ () => this._action(subItem.slug) } >
 									<Icon
 										raised
 										name={ subItem.icon }
@@ -192,7 +192,7 @@ export default class Menus extends React.Component {
 										size={ subItem.iconSize }
 										color={ subItem.iconColor }
 									/>
-									<Text style={styles.controlText} >{ this.Capitalize(subItem.name) }</Text>
+									<Text style={styles.controlText} >{ subItem.name }</Text>
 								</TouchableOpacity>
 							))}
 

@@ -23,6 +23,7 @@ export const signIn = async (params) => {
 			})
 			.then((response) => response.json())
 			.then((responseJson) => {
+								console.log(responseJson)
 				resolve(responseJson);
 			})
 	
