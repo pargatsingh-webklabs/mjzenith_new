@@ -61,7 +61,6 @@ export default class HomeScreen extends React.Component {
         </View>
 
           <WebView
-            style={{marginTop: '100', height: '200'}}
             source={{uri: this.state.webviewURI}}
           />
 
