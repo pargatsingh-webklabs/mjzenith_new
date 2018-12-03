@@ -15,6 +15,9 @@ import ListInvoices from './screens/TabScreens/Invoices/ListInvoices';
 
 import ListApplications from './screens/TabScreens/Applications/ListApplications';
 
+import ListAttachments from './screens/TabScreens/Attachments/ListAttachments';
+import UploadAttachment from './screens/TabScreens/Attachments/UploadAttachment';
+
 import Notifications from './screens/TabScreens/Notifications';
 
 import WebViewPage from './screens/TabScreens/WebView/WebViewPage';
@@ -67,6 +70,12 @@ class RouterComponent extends Component {
 						<Scene key="Applications" hideNavBar   type="replace"  >
 								<Scene key="ListApplications" hideNavBar  component={ListApplications}  type="replace" />
 						</Scene>
+
+						<Scene key="Attachments" hideNavBar  icon={this.Add}  type="replace"  >
+								<Scene key="ListAttachments" hideNavBar  component={ListAttachments}  type="replace" />
+								<Scene key="UploadAttachment" hideNavBar  component={UploadAttachment}  type="replace" />
+						</Scene>
+
 						<Scene key="Invoices" hideNavBar  type="replace"  >
 								<Scene key="ListInvoices" hideNavBar  component={ListInvoices}  type="replace" />
 						</Scene>

@@ -69,10 +69,10 @@ export default class Menus extends React.Component {
 				Actions.AddCompany();
 			break;
 			case  'List Attachments':
-
+        Actions.ListAttachments();
 			break;
 			case  'Upload Attachments':
-
+        Actions.UploadAttachment();
 			break;
 			case  'invoices':
 				Actions.ListInvoices();
