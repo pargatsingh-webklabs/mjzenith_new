@@ -30,7 +30,6 @@ export default class HomeScreen extends React.Component {
   }
 
   openWebView = async (link) => {
-    alert(link)
     this.setState({ loader:true });
     Actions.WebViewPage({'link':link});
   };

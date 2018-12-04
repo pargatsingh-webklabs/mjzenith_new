@@ -40,7 +40,17 @@ export default class HomeScreen extends React.Component {
 		this._listAll();
 	}
 
-
+  componentDidMount = () =>{
+	//	this.setState({ loader:true });
+		AsyncStorage.getItem('userData').then((value) =>{
+			this.setState({ currentUser: JSON.parse(value) })
+      var userId    = this.state.currentUser.id;
+      var companyId = this.state.currentUser.company_id;
+  		companyId = (companyId=="" || companyId==null)?'0':companyId;
+      this.setState({ userId: userId })
+      this.setState({ companyId: companyId })
+		})
+	}
 
   render() {
 
@@ -63,7 +73,7 @@ export default class HomeScreen extends React.Component {
 		</View>
 
           <WebView
-            source={{uri: 'https://mjzenith.com/uploadfile'}}
+            source={{uri: 'https://mjzenith.com/uploadfile/?user_id='+this.state.userId+'&company_id='+this.state.companyId}}
           />
     <ScrollView
 			refreshControl={
