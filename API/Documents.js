@@ -21,6 +21,9 @@ export const ListDocuments = (params) => {
 			.then((responseJson) => {
 				resolve(responseJson);
 			})
+			.catch(function(error) {
+				reject('Network error');
+			})
 	
 		} catch(err) {
 			reject(err.message);

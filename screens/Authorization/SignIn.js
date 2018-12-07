@@ -63,6 +63,10 @@ export default class SignIn extends React.Component {
 				alert('Something went wrong');
 			}
 		})
+		.catch(response =>{
+			this.setState({loader:false});
+			alert(response);
+		})
 	}
 
   render() {

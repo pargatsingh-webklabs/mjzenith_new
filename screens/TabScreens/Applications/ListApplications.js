@@ -136,35 +136,39 @@ export default class HomeScreen extends React.Component {
 			contentContainerStyle={styles.contentContainer}>
             <List>
               {
-                this.state.Applications != undefined && this.state.Applications.map((item) => (
-                  <TouchableOpacity  style={styles.button} onPress={ () => this.openWebView(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name) } >
-                    <ListItem
-                      titleStyle ={styles.applicationTitle}
-                      subtitleStyle ={styles.applicationSubtitle}
-                      title={item.name}
-                      subtitle={ this.dateTime(item.created) }
-                      leftIcon={
-                                <Icon
-                                  name='copy'
-                                  type='font-awesome'
-                                  size={20}
-                                  color={'#f05f40'}
-                                  onPress={() =>  this.writeToClipboard(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name)  }
-                                />
-                                }
-                      rightIcon={
-                                <Icon
-                                  raised
-                                  name='undo'
-                                  type='font-awesome'
-                                  size={20}
-                                  color={'#19B31F'}
-                                  onPress={() => this.resetForm(item.id)  }
-                                />
-                                }
-                    />
-                    </TouchableOpacity>
-                ))
+                this.state.Applications != undefined ?
+					this.state.Applications.map((item) => (
+					  <TouchableOpacity  style={styles.button} onPress={ () => this.openWebView(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name) } >
+						<ListItem
+						  titleStyle ={styles.applicationTitle}
+						  subtitleStyle ={styles.applicationSubtitle}
+						  title={item.name}
+						  subtitle={ this.dateTime(item.created) }
+						  leftIcon={
+									<Icon
+									  name='copy'
+									  type='font-awesome'
+									  size={20}
+									  color={'#f05f40'}
+									  onPress={() =>  this.writeToClipboard(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name)  }
+									/>
+									}
+						  rightIcon={
+									<Icon
+									  raised
+									  name='undo'
+									  type='font-awesome'
+									  size={20}
+									  color={'#19B31F'}
+									  onPress={() => this.resetForm(item.id)  }
+									/>
+									}
+						/>
+						</TouchableOpacity>
+					))
+				:(<View  style={{flex: 1, justifyContent: 'center', flexDirection: 'row', paddingTop:10, paddingBottom:10}}>
+							<Text style={styles.textDescription}>No data available</Text>
+				</View>)
               }
             </List>
 

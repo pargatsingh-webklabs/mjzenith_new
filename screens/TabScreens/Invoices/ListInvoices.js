@@ -98,31 +98,24 @@ export default class HomeScreen extends React.Component {
 			contentContainerStyle={styles.contentContainer}>
             <List>
               {
-                this.state.Invoices != undefined && this.state.Invoices.map((item) => (
+                this.state.Invoices != undefined ?
+					this.state.Invoices.map((item) => (
 
-                <TouchableOpacity style={styles.button} onPress={ () => this.openWebView(Constants.BASEURL+'admin/login/preview_invoice/?iid='+base64.encode(item.id)) } >
-                    <ListItem
-                      containerStyle = {{backgroundColor:item.badgeContainer}}
-                      badge={{ value: item.statusBadge ,containerStyle:{backgroundColor:item.badgeColor}, textStyle: { color: '#fff' } }}
-                      titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
-                      subtitleStyle ={styles.subtitleText}
-                      title={'INV-'+item.invoice_no}
-                      subtitle={ "Due Date : "+this.dateTime(item.due_date) }
-                      // rightIcon={ (item.status!=1)?
-                      //             <Icon
-                      //               raised
-                      //               name='ios-finger-print'
-                      //               type='ionicon'
-                      //               size={20}
-                      //               color={'#19B31F'}
-                      //               onPress={() => console.log('test')  }
-                      //             />
-                      //             :''
-                      //           }
-                    />
-                </TouchableOpacity>
+					<TouchableOpacity style={styles.button} onPress={ () => this.openWebView(Constants.BASEURL+'admin/login/preview_invoice/?iid='+base64.encode(item.id)) } >
+						<ListItem
+						  containerStyle = {{backgroundColor:item.badgeContainer}}
+						  badge={{ value: item.statusBadge ,containerStyle:{backgroundColor:item.badgeColor}, textStyle: { color: '#fff' } }}
+						  titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
+						  subtitleStyle ={styles.subtitleText}
+						  title={'INV-'+item.invoice_no}
+						  subtitle={ "Due Date : "+this.dateTime(item.due_date) }
+						/>
+					</TouchableOpacity>
 
-                ))
+					))
+				:(<View  style={{flex: 1, justifyContent: 'center', flexDirection: 'row', paddingTop:10, paddingBottom:10}}>
+						<Text style={styles.textDescription}>No data available</Text>
+				</View>)	
               }
             </List>
 

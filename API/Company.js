@@ -21,6 +21,9 @@ export const addCompany = (params) => {
 			.then((responseJson) => {
 				resolve(responseJson);
 			})
+			.catch(function(error) {
+				reject('Network error');
+			})
 	
 		} catch(err) {
 			reject(err.message);
@@ -47,6 +50,9 @@ export const ListCompanies = (params) => {
 			.then((response) => response.json())
 			.then((responseJson) => {
 				resolve(responseJson);
+			})
+			.catch(function(error) {
+				reject('Network error');
 			})
 	
 		} catch(err) {
@@ -75,6 +81,9 @@ export const userCompany = (params) => {
 			.then((responseJson) => {
 				resolve(responseJson);
 			})
+			.catch(function(error) {
+				reject('Network error');
+			})
 	
 		} catch(err) {
 			reject(err.message);
@@ -100,6 +109,9 @@ export const deleteCompany = (params) => {
 			.then((response) => response.json())
 			.then((responseJson) => {
 				resolve(responseJson);
+			})
+			.catch(function(error) {
+				reject('Network error');
 			})
 	
 		} catch(err) {

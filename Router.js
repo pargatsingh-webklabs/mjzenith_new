@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Scene, Router } from 'react-native-router-flux';
+import { View, Text, AsyncStorage } from 'react-native';
+import { Scene, Router, Actions } from 'react-native-router-flux';
 import { ScaledSheet } from 'react-native-size-matters';
 import Menus  from './components/Menus';
 
@@ -19,6 +20,8 @@ import Notifications from './screens/TabScreens/Notifications';
 
 import WebViewPage from './screens/TabScreens/WebView/WebViewPage';
 
+import UploadAttachment from './screens/TabScreens/Attachments/UploadAttachment';
+
 import SwitchCompany from './screens/TabScreens/Company/SwitchCompany';
 import ListCompanies from './screens/TabScreens/Company/ListCompanies';
 import AddCompany from './screens/TabScreens/Company/AddCompany';
@@ -33,20 +36,36 @@ class RouterComponent extends Component {
 
 	constructor(props) {
 		super(props);
+		this.state = { initialSceneMain : false, initialSceneAuth : false, loading: true };
 	}
+	
+	componentDidMount = () => {
+		AsyncStorage.getItem('userData').then((value) =>{
+			this.setState({ loading: false });
+			if(value != null){
+				Actions.Main();
+			}else{
+				Actions.Auth();
+			}
+		 })
+	}
+	
 
     render() {
+		if (this.state.loading) {
+		  return <View style={{  flex: 1,justifyContent: 'center',alignItems: 'center' }}><Text style={{ marginTop :50 }}>Loading...</Text></View>;
+		}
         return (
 			<Router>
 			    <Scene key="root" hideNavBar={true} >
-					<Scene key="Auth" hideNavBar type="reset" >
+					<Scene key="Auth" hideNavBar type="reset"  initial={ this.state.initialSceneAuth } >
 			            <Scene key="SignIn" component={SignIn}   />
 			            <Scene key="SignUp" component={SignUp}   />
-			            <Scene key="ForgetPass" component={ForgetPass}  />
+			            <Scene key="ForgetPass" component={ForgetPass}  /> 
 						<Scene key="ThankYou" component={ThankYou}   />
 						<Scene key="Menus" component={Menus}  type="reset" />
 			         </Scene>
-					 <Scene key='Main'  drawer={true}  contentComponent={Menus} type="reset" >
+					 <Scene key='Main'  drawer={true}  contentComponent={Menus} type="reset" initial={ this.state.initialSceneMain } > 
 			            <Scene key="Home" hideNavBar  icon={this.Add} type="reset"  >
 			                <Scene key="HomeScreen"  component={HomeScreen}  type="reset" />
 			            </Scene>
@@ -75,6 +94,9 @@ class RouterComponent extends Component {
 						</Scene>
 						<Scene key="WebView" hideNavBar   type="replace"  >
 								<Scene key="WebViewPage" hideNavBar  component={WebViewPage}  type="replace" />
+						</Scene>
+						<Scene key="Attachment" hideNavBar   type="replace"  >
+								<Scene key="UploadAttachment" hideNavBar  component={UploadAttachment}  type="replace" />
 						</Scene>
 			        </Scene>
 			    </Scene>

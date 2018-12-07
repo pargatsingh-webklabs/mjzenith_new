@@ -72,7 +72,7 @@ export default class Menus extends React.Component {
 
 			break;
 			case  'upload_attachments':
-
+				Actions.UploadAttachment();
 			break;
 			case  'invoices':
 				Actions.ListInvoices();

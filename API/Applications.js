@@ -15,6 +15,9 @@ export const ListApplications = (params) => {
 			.then((responseJson) => {
 				resolve(responseJson);
 			})
+			.catch(function(error) {
+				reject('Network error');
+			})
 
 		} catch(err) {
 			reject(err.message);
@@ -41,6 +44,9 @@ export const resetApplicationForm = (params) => {
 			.then((response) => response.json())
 			.then((responseJson) => {
 				resolve(responseJson);
+			})
+			.catch(function(error) {
+				reject('Network error');
 			})
 
 		} catch(err) {

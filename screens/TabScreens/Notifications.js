@@ -40,6 +40,10 @@ export default class Notifications extends React.Component {
 		userNotify(data).then(result => {
 			this.setState({ Notifications: result.data, loader:false })
 		})
+		.catch(response =>{
+			this.setState({loader:false});
+			alert(response);
+		})
 	}
 	
 	_onRefresh = () => {
@@ -94,31 +98,35 @@ export default class Notifications extends React.Component {
 				contentContainerStyle={styles.contentContainer}>
             <List>
               {
-                this.state.Notifications != undefined && this.state.Notifications.map((item) => (
-                  <TouchableOpacity   key={ item.id }  onPress={ () => this._readNotification(item) } >
-                    <ListItem
-					  containerStyle= {{ backgroundColor: item.status == 0 ? '#f2f2f2' : '#fff' }}
-					  leftIcon ={
-								<Icon
-									iconStyle ={{ marginRight:10 }}
-                                    name='file-document-outline'
-                                    type='material-community'
-                                    size={ 40 }
-                                    color={'#f05f40'}
-                                    
-                                  />
-						  }
-                      titleStyle ={{ color:'#f05f40',fontSize:20,  fontWeight:'600' }}
-                      title={ item.title }
-                      subtitle={ 
-								<View style={{ flexDirection: 'column' }} >
-									<Text>{ item.content }</Text>
-									<TimeAgo time={ this._timeAgo(item.created) } interval={20000} />
-								</View>
-					   }
-                    />
-                </TouchableOpacity>
-                ))
+                this.state.Notifications != undefined ? 
+					this.state.Notifications.map((item) => (
+					  <TouchableOpacity   key={ item.id }  onPress={ () => this._readNotification(item) } >
+						<ListItem
+						  containerStyle= {{ backgroundColor: item.status == 0 ? '#f2f2f2' : '#fff' }}
+						  leftIcon ={
+									<Icon
+										iconStyle ={{ marginRight:10 }}
+										name='file-document-outline'
+										type='material-community'
+										size={ 40 }
+										color={'#f05f40'}
+										
+									  />
+							  }
+						  titleStyle ={{ color:'#f05f40',fontSize:20,  fontWeight:'600' }}
+						  title={ item.title }
+						  subtitle={ 
+									<View style={{ flexDirection: 'column' }} >
+										<Text>{ item.content }</Text>
+										<TimeAgo time={ this._timeAgo(item.created) } interval={20000} />
+									</View>
+						   }
+						/>
+					</TouchableOpacity>
+					))
+					:(<View  style={{flex: 1, justifyContent: 'center', flexDirection: 'row', paddingTop:10, paddingBottom:10}}>
+                                <Text style={styles.textDescription}>No data available</Text>
+					</View>)
               }
             </List>
      

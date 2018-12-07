@@ -26,6 +26,9 @@ export const signIn = async (params) => {
 								console.log(responseJson)
 				resolve(responseJson);
 			})
+			.catch(function(error) {
+				reject('Network error');
+			})
 	
 		} catch(err) {
 			reject(err.message);
@@ -56,6 +59,9 @@ export const clearUserToken = async (params) => {
 			.then((responseJson) => {
 				resolve(responseJson);
 			})
+			.catch(function(error) {
+				reject('Network error');
+			})
 	
 		} catch(err) {
 			reject(err.message);
@@ -82,6 +88,9 @@ export const signUp = (params) => {
 			.then((response) => response.json())
 			.then((responseJson) => {
 				resolve(responseJson);
+			})
+			.catch(function(error) {
+				reject('Network error');
 			})
 	
 		} catch(err) {
@@ -110,6 +119,9 @@ export const forgetPass = (params) => {
 			.then((responseJson) => {
 				resolve(responseJson);
 			})
+			.catch(function(error) {
+				reject('Network error');
+			})
 	
 		} catch(err) {
 			reject(err.message);
@@ -136,6 +148,9 @@ export const updateProfile = (params) => {
 			.then((response) => response.json())
 			.then((responseJson) => {
 				resolve(responseJson);
+			})
+			.catch(function(error) {
+				reject('Network error');
 			})
 	
 		} catch(err) {
@@ -164,6 +179,9 @@ export const userDetail = (params) => {
 			.then((responseJson) => {
 				resolve(responseJson);
 			})
+			.catch(function(error) {
+				reject('Network error');
+			})
 	
 		} catch(err) {
 			reject(err.message);
@@ -189,6 +207,9 @@ export const updatePassword = (params) => {
 			.then((response) => response.json())
 			.then((responseJson) => {
 				resolve(responseJson);
+			})
+			.catch(function(error) {
+				reject('Network error');
 			})
 	
 		} catch(err) {

@@ -39,8 +39,6 @@ export default class HomeScreen extends React.Component {
 			this._listAll();
 
 		})
-
-
 	}
 
 	_listAll = () =>{
@@ -48,7 +46,6 @@ export default class HomeScreen extends React.Component {
 		var companyId = this.state.currentUser.company_id;
 		data.company_id = (companyId=="" || companyId==null)?'0':companyId;
 		data.user_id = this.state.currentUser.id;
-    console.log(data);
 		ListDocuments(data).then(result => {
 			console.log(result.data)
 			this.setState({ Documents: result.data, loader:false })
@@ -72,27 +69,7 @@ export default class HomeScreen extends React.Component {
 	  return time;
 	}
 
-	deleteCompany = (id) =>{
-		var data = {};
-		data.id = id;
-		Alert.alert(
-		  'Are you sure you want to delete company!',
-		  '',
-		  [
-			{text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-			{text: 'OK', onPress: () =>  this._deleteCompany(data) },
-		  ],
-		  { cancelable: false }
-		)
-	}
 
-	_deleteCompany = (data) => {
-		this.setState({ loader:true })
-		deleteCompany(data).then(result => {
-			this.setState({  loader: false });
-			this._listAll();
-		});
-	}
 
   render() {
     return (
@@ -118,24 +95,28 @@ export default class HomeScreen extends React.Component {
 			contentContainerStyle={styles.contentContainer}>
             <List>
               {
-                this.state.Documents != undefined && this.state.Documents.map((item) => (
-                    <ListItem
-                      titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
-                      title={item.document}
-                      subtitle={ this.dateTime(item.created) }
-                      rightIcon={
-                                  <Icon
-                                    raised
-                                    name='eye'
-                                    type='font-awesome'
-                                    size={20}
-                                    color={'#19B31F'}
-                                    onPress={ () => this.openWebView(Constants.VIEW_DOWNLOAD_DOCUMENT+item.document)  }
-                                  />
+                this.state.Documents != undefined ? 
+					this.state.Documents.map((item) => (
+						<ListItem
+						  titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
+						  title={item.document}
+						  subtitle={ this.dateTime(item.created) }
+						  rightIcon={
+									  <Icon
+										raised
+										name='eye'
+										type='font-awesome'
+										size={20}
+										color={'#19B31F'}
+										onPress={ () => this.openWebView(Constants.VIEW_DOWNLOAD_DOCUMENT+item.document)  }
+									  />
 
-                                }
-                    />
-                ))
+									}
+						/>
+					))
+				:(<View  style={{flex: 1, justifyContent: 'center', flexDirection: 'row', paddingTop:10, paddingBottom:10}}>
+					<Text style={styles.textDescription}>No data available</Text>
+				</View>)
               }
             </List>
 

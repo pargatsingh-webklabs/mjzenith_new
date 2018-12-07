@@ -22,6 +22,9 @@ export const userNotify = async (params) => {
 			.then((responseJson) => {
 				resolve(responseJson);
 			})
+			.catch(function(error) {
+				reject('Network error');
+			})
 	
 		} catch(err) {
 			reject(err.message);
@@ -49,6 +52,9 @@ export const userNotifyCount = (params) => {
 			.then((responseJson) => {
 				resolve(responseJson);
 			})
+			.catch(function(error) {
+				reject('Network error');
+			})
 	
 		} catch(err) {
 			reject(err.message);
@@ -75,6 +81,9 @@ export const userNotifyStatus = (params) => {
 			.then((response) => response.json())
 			.then((responseJson) => {
 				resolve(responseJson);
+			})
+			.catch(function(error) {
+				reject('Network error');
 			})
 	
 		} catch(err) {

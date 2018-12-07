@@ -22,7 +22,7 @@ export default class MyProfile extends React.Component {
   
 	constructor(props) {
 		super(props);
-		this.state = { currentUser: [], fName: '', lName: '', cName: '', phone: '' , loader: false };
+		this.state = { currentUser: [], fName: '', lName: '', phone: '' , loader: false };
 	}
 	
 	componentDidMount = () =>{
@@ -32,10 +32,11 @@ export default class MyProfile extends React.Component {
 			
 			data.id = this.state.currentUser.id;
 			userDetail(data).then(result => {
-				this.setState({ fName: result.data.fname, lName: result.data.lname, cName: result.data.company_name, phone: result.data.phone_no });
+				this.setState({ fName: result.data.fname, lName: result.data.lname, phone: result.data.phone_no });
 			});
 			
 		})
+		
 	}
 
 	
@@ -52,7 +53,6 @@ export default class MyProfile extends React.Component {
 		data.id = this.state.currentUser.id;
 		data.fname = this.state.fName;
 		data.lname = this.state.lName;
-		data.my_company_name = this.state.cName;
 		data.phone_no = this.state.phone;
 		
 		updateProfile(data).then(response => {
@@ -64,6 +64,10 @@ export default class MyProfile extends React.Component {
 			}else{
 				alert('Something went wrong');
 			}
+		})
+		.catch(response =>{
+			this.setState({loader:false});
+			alert(response);
 		})
 	}
 	
@@ -102,16 +106,7 @@ export default class MyProfile extends React.Component {
 				value={ this.state.phone }
 				keyboardType = 'number-pad'
 			  />
-          </View>    
-          <View style={{ marginTop: 20}}>
-			  <TextInput
-				style={styles.input}
-				placeholder='Company Name'
-				placeholderTextColor="#767676" 				
-				onChangeText={(text) => this.setState({ cName:text })}
-				value={ this.state.cName }
-			  />
-          </View>    
+          </View>      
 
 			<View style={{ marginTop: 50}}>
 				<TouchableOpacity style={styles.button} onPress={ () => this.submit() } >

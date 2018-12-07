@@ -18,8 +18,10 @@ export const ListInvoices = (params) => {
 			})
 			.then((response) => response.json())
 			.then((responseJson) => {
-        console.log(responseJson)
 				resolve(responseJson);
+			})
+			.catch(function(error) {
+				reject('Network error');
 			})
 
 		} catch(err) {
@@ -47,6 +49,9 @@ export const resetApplicationForm = (params) => {
 			.then((response) => response.json())
 			.then((responseJson) => {
 				resolve(responseJson);
+			})
+			.catch(function(error) {
+				reject('Network error');
 			})
 
 		} catch(err) {

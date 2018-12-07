@@ -35,6 +35,12 @@ export default class SignUp extends React.Component {
 			alert('Please fill all fields');
 			return false;
 		}
+		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+		if(reg.test(this.state.email) === false)
+		{
+			alert('Invalid email!');
+			return false;
+		}
 
 		this.setState({loader:true});	
 		
@@ -54,6 +60,10 @@ export default class SignUp extends React.Component {
 			}else{
 				alert('Something went wrong');
 			}
+		})
+		.catch(response =>{
+			this.setState({loader:false});
+			alert(response);
 		})
 	}
 

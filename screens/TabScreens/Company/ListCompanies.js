@@ -29,10 +29,7 @@ export default class HomeScreen extends React.Component {
 		AsyncStorage.getItem('userData').then((value) =>{ 	
 			this.setState({ currentUser: JSON.parse(value) }) 
 			this._listAll();
-			
 		})
-		
-		
 	}
 	
 	_listAll = () =>{
@@ -106,27 +103,31 @@ export default class HomeScreen extends React.Component {
 				contentContainerStyle={styles.contentContainer}>
             <List>
               {
-                this.state.Companies != undefined && this.state.Companies.map((item) => (
-                  <TouchableOpacity   key={item.id} style={styles.button} onPress={ () => Actions.AddCompany({ CompanyId: item.id }) } >
-                    <ListItem
-                      titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
-                      title={item.name}
-                      subtitle={ this.dateTime(item.created) }
-                      rightIcon={ 
-                                  <Icon
-                                    raised
-                                    name='bitbucket'
-                                    type='font-awesome'
-                                    size={20}
-                                    color={'#fc0399'}
-                                    onPress={() => this.deleteCompany(item.id) }
-                                  />
+                this.state.Companies != undefined ?
+					this.state.Companies.map((item) => (
+					  <TouchableOpacity   key={item.id} style={styles.button} onPress={ () => Actions.AddCompany({ CompanyId: item.id }) } >
+						<ListItem
+						  titleStyle ={{color:'#f05f40',fontSize:20,  fontWeight:'600'}}
+						  title={item.name}
+						  subtitle={ this.dateTime(item.created) }
+						  rightIcon={ 
+									  <Icon
+										raised
+										name='bitbucket'
+										type='font-awesome'
+										size={20}
+										color={'#fc0399'}
+										onPress={() => this.deleteCompany(item.id) }
+									  />
 
-                                }
+									}
 
-                    />
-                </TouchableOpacity>
-                ))
+						/>
+					</TouchableOpacity>
+					))
+				:(<View  style={{flex: 1, justifyContent: 'center', flexDirection: 'row', paddingTop:10, paddingBottom:10}}>
+					<Text style={styles.textDescription}>No data available</Text>
+				</View>)
               }
             </List>
      
