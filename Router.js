@@ -23,8 +23,6 @@ import Notifications from './screens/TabScreens/Notifications';
 
 import WebViewPage from './screens/TabScreens/WebView/WebViewPage';
 
-import UploadAttachment from './screens/TabScreens/Attachments/UploadAttachment';
-
 import SwitchCompany from './screens/TabScreens/Company/SwitchCompany';
 import ListCompanies from './screens/TabScreens/Company/ListCompanies';
 import AddCompany from './screens/TabScreens/Company/AddCompany';
@@ -103,9 +101,6 @@ class RouterComponent extends Component {
 						</Scene>
 						<Scene key="WebView" hideNavBar   type="replace"  >
 								<Scene key="WebViewPage" hideNavBar  component={WebViewPage}  type="replace" />
-						</Scene>
-						<Scene key="Attachment" hideNavBar   type="replace"  >
-								<Scene key="UploadAttachment" hideNavBar  component={UploadAttachment}  type="replace" />
 						</Scene>
 			        </Scene>
 			    </Scene>
