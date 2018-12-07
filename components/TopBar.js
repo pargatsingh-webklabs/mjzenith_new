@@ -11,26 +11,26 @@ import { Actions } from 'react-native-router-flux';
 import { userNotifyCount } from '../API/Notifications';
 
 export default class TopBar extends React.Component {
-	
+
 	constructor(props) {
 		super(props);
 		this.state = { notifyCount : '', currentUser : [] };
 	}
-	
+
 	componentDidMount = () => {
 		var data = {};
-		
+
 		AsyncStorage.getItem('userData').then((value) =>{
-			this.setState({ currentUser: JSON.parse(value) }) 
-			
+			this.setState({ currentUser: JSON.parse(value) })
+
 			data.user_id = this.state.currentUser.id;
-			
+
 			userNotifyCount(data).then((result) =>{
-				this.setState({ notifyCount: result.data.unread }) 
+				this.setState({ notifyCount: result.data.unread })
 			})
 		})
 	}
-	
+
   render() {
     return (
       <View style={ styles.bar } >
@@ -38,16 +38,16 @@ export default class TopBar extends React.Component {
 				<Icon
 				  name='bars'
 				  type='font-awesome'
-				  size={30}
-				  color={'#fff'}				 
+				  size={25}
+				  color={'#fff'}
 				/>
 			</TouchableOpacity>
 			<TouchableOpacity onPress={() => Actions.Notifications() } >
 				<Icon
 				  name='notifications'
 				  type='materialIcons'
-				  size={30}
-				  color={'#fff'}				 
+				  size={25}
+				  color={'#fff'}
 				/>
 				{ this.state.notifyCount ? (<Text style={ styles.notiBadge }>{ this.state.notifyCount }</Text>) : null }
 			</TouchableOpacity>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 	bar: {
 		justifyContent: 'space-between',
 		flexDirection: 'row',
-		paddingTop:20,
+		paddingTop:35,
 		paddingBottom:10,
 		paddingLeft:20,
 		paddingRight:20,
@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: '#000',
 		borderRadius: 10,
-		height: 20,
-		width: 20,
+		height: 18,
+		width: 18,
 		color: '#fff',
-		overflow:"hidden"	
+		overflow:"hidden"
 	}
 
 });

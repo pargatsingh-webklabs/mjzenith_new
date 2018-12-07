@@ -18,24 +18,24 @@ import { Actions } from 'react-native-router-flux';
 import { forgetPass } from '../../API/Authorization';
 
 export default class ForgetPass extends React.Component {
-  
+
 	constructor(props) {
 		super(props);
 		this.state = { email: '', loader:false };
 	}
 
-	
+
 	forgetPass =()=> {
-	    if (!this.state.email){ 
+	    if (!this.state.email){
 			alert('Please enter email address');
 			return false;
 		}
-		
-		this.setState({loader:true});	
-		
+
+		this.setState({loader:true});
+
 		var data = {} ;
 		data.email = this.state.email;
-		
+
 		forgetPass(data).then(response => {
 			this.setState({loader:false});
 			if(response.result == 'success'){
@@ -48,7 +48,7 @@ export default class ForgetPass extends React.Component {
 			}
 		})
 	}
-	
+
   render() {
     return (
       <View style={styles.container}>
@@ -63,7 +63,7 @@ export default class ForgetPass extends React.Component {
 			  <TextInput
 				style={styles.input}
 				placeholder='Email'
-				placeholderTextColor="#767676" 				
+				placeholderTextColor="#767676"
 				onChangeText={(text) => this.setState({email:text})}
 				value={this.state.email}
 			  />
@@ -74,7 +74,7 @@ export default class ForgetPass extends React.Component {
 			  color='#51bbfc'
 			  size={20}
 			/>
-          </View>			
+          </View>
 			<View style={{ marginTop: 50}}>
 				<TouchableOpacity style={styles.button} onPress={this.forgetPass} >
 					<Text style={styles.btnText}>Forget password</Text>
@@ -110,17 +110,16 @@ const styles = ScaledSheet.create({
 		marginTop: 100,
 		marginBottom: 20,
 	},
-	welcomeImage: {
-		width: '100%',
+  welcomeImage: {
+		width: '90%',
 		resizeMode: 'contain',
-		marginTop: 3,
-		marginLeft: -10,
+    textAlign:'center'
 	},
 	input:{
 		backgroundColor:'white',
-		height: 60, 
-		borderColor: '#e7e8eb', 
-		borderWidth: 1, 
+		height: 60,
+		borderColor: '#e7e8eb',
+		borderWidth: 1,
 		borderRadius:10,
 		paddingLeft:20,
 		fontWeight:'600'
@@ -131,22 +130,22 @@ const styles = ScaledSheet.create({
 		bottom:20
 	},
 	forget:{
-		textAlign: 'right', 
+		textAlign: 'right',
 		fontWeight:'900',
 		fontSize:12,
-		color:'#232d49' 
+		color:'#232d49'
 	},
 	signUpText:{
-		textAlign: 'center', 
+		textAlign: 'center',
 		fontWeight:'900',
 		fontSize:12,
-		color:'#232d49' 
+		color:'#232d49'
 	},
 	signUpSubText:{
-		textAlign: 'center', 
+		textAlign: 'center',
 		fontWeight:'900',
 		fontSize:12,
-		color:'#f05f40' 
+		color:'#f05f40'
 	},
 	button: {
 		alignItems: 'center',
@@ -164,7 +163,7 @@ const styles = ScaledSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	btnText: { 
+	btnText: {
 		color:'#fff',
 		fontWeight: '700',
 		fontSize:'14@ms0.3'

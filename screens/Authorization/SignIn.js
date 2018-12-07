@@ -49,11 +49,11 @@ export default class SignIn extends React.Component {
 		signIn(data).then(response => {
 			this.setState({loader:false});
 			if(response.result == 'success'){
-				
+
 				if(response.data.accounttype == 'individual'){
 					response.menus.splice(response.menus.indexOf(response.menus[1]), 1);
 				}
-				
+
 				AsyncStorage.setItem('userData', JSON.stringify(response.data));
 				AsyncStorage.setItem('menus', JSON.stringify(response.menus));
 				Actions.Main();
@@ -151,10 +151,9 @@ const styles = ScaledSheet.create({
 		marginBottom: 20,
 	},
 	welcomeImage: {
-		width: '100%',
+		width: '90%',
 		resizeMode: 'contain',
-		marginTop: 3,
-		marginLeft: -10,
+    textAlign:'center'
 	},
 	input:{
 		backgroundColor:'white',

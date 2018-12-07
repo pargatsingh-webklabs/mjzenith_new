@@ -42,6 +42,7 @@ class RouterComponent extends Component {
         return (
 			<Router>
 			    <Scene key="root" hideNavBar={true} >
+
 					<Scene key="Auth" hideNavBar type="reset" >
 			            <Scene key="SignIn" component={SignIn}   />
 			            <Scene key="SignUp" component={SignUp}   />
@@ -71,7 +72,7 @@ class RouterComponent extends Component {
 								<Scene key="ListApplications" hideNavBar  component={ListApplications}  type="replace" />
 						</Scene>
 
-						<Scene key="Attachments" hideNavBar  icon={this.Add}  type="replace"  >
+						<Scene key="Attachments" hideNavBar    type="replace"  >
 								<Scene key="ListAttachments" hideNavBar  component={ListAttachments}  type="replace" />
 								<Scene key="UploadAttachment" hideNavBar  component={UploadAttachment}  type="replace" />
 						</Scene>

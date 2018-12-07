@@ -217,7 +217,7 @@ const styles = ScaledSheet.create({
     overflow:'hidden'
   },
   logo: {
-	width:'90%',
+	width:'80%',
     resizeMode: 'contain'
   },
   controlText: {
