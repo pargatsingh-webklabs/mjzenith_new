@@ -4,10 +4,11 @@ import Constants from '../constants/Constants';
 
 export const signIn = async (params) => {
    let token = await Notifications.getExpoPushTokenAsync();
-   return new Promise((resolve, reject) => {  
-		try {	
+   console.log(token)
+   return new Promise((resolve, reject) => {
+		try {
 			  params.device_token = token;
-			  
+
 			var formData = new FormData();
 
 			for (var k in params) {
@@ -29,7 +30,6 @@ export const signIn = async (params) => {
 			.catch(function(error) {
 				reject('Network error');
 			})
-	
 		} catch(err) {
 			reject(err.message);
 		}
@@ -38,10 +38,10 @@ export const signIn = async (params) => {
 
 export const clearUserToken = async (params) => {
    let token = await Notifications.getExpoPushTokenAsync();
-   return new Promise((resolve, reject) => {  
-		try {	
+   return new Promise((resolve, reject) => {
+		try {
 			  params.device_token = token;
-			  
+
 			var formData = new FormData();
 
 			for (var k in params) {
@@ -62,7 +62,6 @@ export const clearUserToken = async (params) => {
 			.catch(function(error) {
 				reject('Network error');
 			})
-	
 		} catch(err) {
 			reject(err.message);
 		}
@@ -70,8 +69,8 @@ export const clearUserToken = async (params) => {
 }
 
 export const signUp = (params) => {
-   return new Promise((resolve, reject) => {  
-		try {	
+   return new Promise((resolve, reject) => {
+		try {
 			var formData = new FormData();
 
 			for (var k in params) {
@@ -92,7 +91,6 @@ export const signUp = (params) => {
 			.catch(function(error) {
 				reject('Network error');
 			})
-	
 		} catch(err) {
 			reject(err.message);
 		}
@@ -100,8 +98,8 @@ export const signUp = (params) => {
 }
 
 export const forgetPass = (params) => {
-   return new Promise((resolve, reject) => {  
-		try {	
+   return new Promise((resolve, reject) => {
+		try {
 			var formData = new FormData();
 
 			for (var k in params) {
@@ -122,7 +120,6 @@ export const forgetPass = (params) => {
 			.catch(function(error) {
 				reject('Network error');
 			})
-	
 		} catch(err) {
 			reject(err.message);
 		}
@@ -130,8 +127,8 @@ export const forgetPass = (params) => {
 }
 
 export const updateProfile = (params) => {
-   return new Promise((resolve, reject) => {  
-		try {	
+   return new Promise((resolve, reject) => {
+		try {
 			var formData = new FormData();
 
 			for (var k in params) {
@@ -152,7 +149,6 @@ export const updateProfile = (params) => {
 			.catch(function(error) {
 				reject('Network error');
 			})
-	
 		} catch(err) {
 			reject(err.message);
 		}
@@ -160,8 +156,8 @@ export const updateProfile = (params) => {
 }
 
 export const userDetail = (params) => {
-   return new Promise((resolve, reject) => {  
-		try {	
+   return new Promise((resolve, reject) => {
+		try {
 			var formData = new FormData();
 
 			for (var k in params) {
@@ -182,15 +178,14 @@ export const userDetail = (params) => {
 			.catch(function(error) {
 				reject('Network error');
 			})
-	
 		} catch(err) {
 			reject(err.message);
 		}
 	});
 }
 export const updatePassword = (params) => {
-   return new Promise((resolve, reject) => {  
-		try {	
+   return new Promise((resolve, reject) => {
+		try {
 			var formData = new FormData();
 
 			for (var k in params) {
@@ -211,10 +206,8 @@ export const updatePassword = (params) => {
 			.catch(function(error) {
 				reject('Network error');
 			})
-	
 		} catch(err) {
 			reject(err.message);
 		}
 	});
 }
-

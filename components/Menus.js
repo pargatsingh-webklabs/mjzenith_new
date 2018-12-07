@@ -30,11 +30,11 @@ export default class Menus extends React.Component {
 	}
 
 	componentDidMount = () => {
-		
+
 		AsyncStorage.getItem('menus').then((value) =>{
 			this.setState({ menus: JSON.parse(value) })
 		})
-		
+
 		AsyncStorage.getItem('userData').then((value) =>{
 			this.setState({ currentUser: JSON.parse(value) })
 			if(this.state.currentUser.accounttype == 'individual'){
@@ -69,7 +69,7 @@ export default class Menus extends React.Component {
 				Actions.AddCompany();
 			break;
 			case  'list_attachments':
-
+        Actions.ListAttachments();
 			break;
 			case  'upload_attachments':
 				Actions.UploadAttachment();
@@ -217,7 +217,7 @@ const styles = ScaledSheet.create({
     overflow:'hidden'
   },
   logo: {
-	width:'90%',
+	width:'80%',
     resizeMode: 'contain'
   },
   controlText: {

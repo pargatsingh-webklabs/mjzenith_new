@@ -19,19 +19,19 @@ import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 import { signUp } from '../../API/Authorization';
 
 export default class SignUp extends React.Component {
-  
+
   	constructor(props) {
 		super(props);
 		this.state = { email: '', password: '', company: '', hidePassword: true, loader: false , selectedRadio: '' };
 	}
-  
+
 	managePasswordVisibility = () =>
 	{
 		this.setState({ hidePassword: !this.state.hidePassword });
 	}
-	
+
 	userRegister =()=> {
-	    if (!this.state.email || !this.state.password || !this.state.selectedRadio || (this.state.selectedRadio == 'company' && !this.state.company) ){ 
+	    if (!this.state.email || !this.state.password || !this.state.selectedRadio || (this.state.selectedRadio == 'company' && !this.state.company) ){
 			alert('Please fill all fields');
 			return false;
 		}
@@ -42,14 +42,14 @@ export default class SignUp extends React.Component {
 			return false;
 		}
 
-		this.setState({loader:true});	
-		
+		this.setState({loader:true});
+
 		var data = {} ;
 		data.email = this.state.email;
 		data.password = this.state.password;
 		data.accounttype = this.state.selectedRadio;
 		data.company_name = this.state.company;
-		
+
 		signUp(data).then(response => {
 			this.setState({loader:false});
 			if(response.result == 'success'){
@@ -81,7 +81,7 @@ export default class SignUp extends React.Component {
 			  <TextInput
 				style={styles.input}
 				placeholder='Email'
-				placeholderTextColor="#767676" 				
+				placeholderTextColor="#767676"
 				onChangeText={(text) => this.setState({email:text})}
 				value={this.state.email}
 			  />
@@ -93,12 +93,12 @@ export default class SignUp extends React.Component {
 			  size={20}
 			/>
           </View>
-          
+
           <View style={{ marginTop: 10}}>
 			<TextInput
 				style={styles.input}
 				placeholder='Password'
-				placeholderTextColor="#767676" 
+				placeholderTextColor="#767676"
 				onChangeText={(text) => this.setState({password:text})}
 				value={this.state.password}
 				secureTextEntry = { this.state.hidePassword }
@@ -109,13 +109,13 @@ export default class SignUp extends React.Component {
 				type='entypo'
 				onPress={this.managePasswordVisibility}
 				color='#51bbfc'
-				size={20}			  
+				size={20}
 			/>
 			</View>
 			<View style={{ marginTop: 10}} ><Text>Account type:</Text></View>
-			<RadioGroup   
-				size={24} 
-				color='#51bbfc' 
+			<RadioGroup
+				size={24}
+				color='#51bbfc'
 				style={{ flexDirection: 'row' }}
 				onSelect = {(index, value) => this.setState({selectedRadio : value })}
 				 >
@@ -126,32 +126,32 @@ export default class SignUp extends React.Component {
 					  <Text>Company</Text>
 					</RadioButton>
 			</RadioGroup>
-			
+
 			{ this.state.selectedRadio == 'company' ? (
 				<View style={{ marginTop: 10}}>
 				<TextInput
 					style={styles.input}
 					placeholder='Company name'
-					placeholderTextColor="#767676" 
+					placeholderTextColor="#767676"
 					onChangeText={(text) => this.setState({ company:text })}
 					value={this.state.company}
 				/>
-				</View>				
+				</View>
 				) : (<View/>) }
 
-			
+
 
 			<View style={{ marginTop: 50}}>
 				<TouchableOpacity style={styles.button} onPress={this.userRegister} >
 					<Text style={styles.btnText}>Sign up</Text>
 				</TouchableOpacity>
 			</View>
-			
+
 			<View style={{ marginTop: 30}}>
 			  <Text style={styles.signUpText} >Already have an account? <Text onPress={ () => Actions.SignIn() } style={styles.signUpSubText} >Sign In</Text></Text>
 			</View>
         </ScrollView>
-        
+
         { this.state.loader === true ? (
 			<View style={styles.loderBackground}>
 			  <ActivityIndicator
@@ -160,7 +160,7 @@ export default class SignUp extends React.Component {
 				animating={this.state.loader} />
 			</View>
 		) : (<View />) }
-        
+
       </View>
     );
   }
@@ -179,17 +179,16 @@ const styles = ScaledSheet.create({
 		marginTop: 100,
 		marginBottom: 20,
 	},
-	welcomeImage: {
-		width: '100%',
+  welcomeImage: {
+		width: '90%',
 		resizeMode: 'contain',
-		marginTop: 3,
-		marginLeft: -10,
+    textAlign:'center'
 	},
 	input:{
 		backgroundColor:'white',
-		height: 60, 
-		borderColor: '#e7e8eb', 
-		borderWidth: 1, 
+		height: 60,
+		borderColor: '#e7e8eb',
+		borderWidth: 1,
 		borderRadius:10,
 		paddingLeft:20,
 		fontWeight:'600'
@@ -200,22 +199,22 @@ const styles = ScaledSheet.create({
 		bottom:20
 	},
 	forget:{
-		textAlign: 'right', 
+		textAlign: 'right',
 		fontWeight:'900',
 		fontSize:12,
-		color:'#232d49' 
+		color:'#232d49'
 	},
 	signUpText:{
-		textAlign: 'center', 
+		textAlign: 'center',
 		fontWeight:'900',
 		fontSize:12,
-		color:'#232d49' 
+		color:'#232d49'
 	},
 	signUpSubText:{
-		textAlign: 'center', 
+		textAlign: 'center',
 		fontWeight:'900',
 		fontSize:12,
-		color:'#f05f40' 
+		color:'#f05f40'
 	},
 	button: {
 		alignItems: 'center',
@@ -233,7 +232,7 @@ const styles = ScaledSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	btnText: { 
+	btnText: {
 		color:'#fff',
 		fontWeight: '700',
 		fontSize:'14@ms0.3'

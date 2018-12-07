@@ -59,9 +59,13 @@ export default class HomeScreen extends React.Component {
           size="large"
           animating={this.state.loader} />
         </View>
-        <WebView
-          source={{uri: this.state.webviewURI}}
-        />
+
+          <WebView
+            style={{ flexDirection: 'column' }}
+            source={{uri: this.state.webviewURI}}
+            scalesPageToFit={'true'}
+          />
+
       </View>
     );
   }
@@ -71,7 +75,7 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
+		flex: 2,
 		backgroundColor: '#fff',
 	},
 	contentContainer: {

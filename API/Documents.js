@@ -3,8 +3,8 @@ import Constants from '../constants/Constants';
 
 
 export const ListDocuments = (params) => {
-   return new Promise((resolve, reject) => {  
-		try {	
+   return new Promise((resolve, reject) => {
+		try {
 			var formData = new FormData();
 
 			for (var k in params) {
@@ -24,11 +24,8 @@ export const ListDocuments = (params) => {
 			.catch(function(error) {
 				reject('Network error');
 			})
-	
 		} catch(err) {
 			reject(err.message);
 		}
 	});
 }
-
-
