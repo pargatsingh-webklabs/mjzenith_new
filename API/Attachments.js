@@ -10,7 +10,6 @@ export const ListAttachments = (params) => {
      for (var k in params) {
        formData.append(k, params[k]);
      }
-     console.log(formData)
      fetch(Constants.USER_ATTACHMENTS, {
          method: 'POST',
          headers: {

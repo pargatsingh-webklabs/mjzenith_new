@@ -63,7 +63,6 @@ export default class HomeScreen extends React.Component {
           <WebView
             style={{ flexDirection: 'column' }}
             source={{uri: this.state.webviewURI}}
-            scalesPageToFit={'true'}
           />
 
       </View>

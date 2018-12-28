@@ -138,7 +138,7 @@ export default class HomeScreen extends React.Component {
               {
                 this.state.Applications != undefined ?
 					this.state.Applications.map((item) => (
-					  <TouchableOpacity  style={styles.button} onPress={ () => this.openWebView(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name) } >
+					  <TouchableOpacity key={ item.id }  style={styles.button} onPress={ () => this.openWebView(Constants.BASEURL+'application/html_application/?application_id='+base64.encode(item.id)+'&user_id='+base64.encode(this.state.userId)+'&company_id='+base64.encode(this.state.companyId) ,item.name) } >
 						<ListItem
 						  titleStyle ={styles.applicationTitle}
 						  subtitleStyle ={styles.applicationSubtitle}

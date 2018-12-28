@@ -38,7 +38,7 @@ export default class TopBar extends React.Component {
 				<Icon
 				  name='bars'
 				  type='font-awesome'
-				  size={25}
+				  size={28}
 				  color={'#fff'}
 				/>
 			</TouchableOpacity>
@@ -46,7 +46,7 @@ export default class TopBar extends React.Component {
 				<Icon
 				  name='notifications'
 				  type='materialIcons'
-				  size={25}
+				  size={28}
 				  color={'#fff'}
 				/>
 				{ this.state.notifyCount ? (<Text style={ styles.notiBadge }>{ this.state.notifyCount }</Text>) : null }
@@ -67,11 +67,13 @@ const styles = StyleSheet.create({
 	},
 	notiBadge:{
 		textAlign:'center',
+		alignItems:'center',
 		marginTop:-35,
 		marginLeft:20,
 		backgroundColor: '#000',
 		borderWidth: 1,
 		borderColor: '#000',
+		fontSize: 12,
 		borderRadius: 10,
 		height: 18,
 		width: 18,

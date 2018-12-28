@@ -41,28 +41,17 @@ export default class HomeScreen extends React.Component {
 			case  'company':
 				Actions.ListCompanies();
 			break;
-
 			case  'attachments':
-
+				Actions.ListAttachments();
 			break;
 			case  'invoices':
 				Actions.ListInvoices();
 			break;
 			case  'documents':
 				Actions.ListDocuments();
-
 			break;
 			case  'applications':
 				Actions.ListApplications();
-
-			break;
-			case  'logout':
-				clearUserToken(this.state.currentUser).then((value) =>{
-					AsyncStorage.clear();
-					AsyncStorage.getItem('userData').then((value) =>{
-						Actions.Auth();
-					})
-				});
 			break;
 			default:
 				alert('Something went wrong');

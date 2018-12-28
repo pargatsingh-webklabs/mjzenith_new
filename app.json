@@ -1,5 +1,8 @@
 {
   "expo": {
+    "notification": {
+      "icon": "./assets/images/48X48.png"
+    },
     "name": "MjZenith",
     "description": "A very interesting project.",
     "slug": "mjzenith",
@@ -11,9 +14,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splash.png",
+    "icon": "./assets/images/favicon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/splashScreen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -32,7 +35,7 @@
     },
     "scheme": "expb2bdde924b924d8994e5aac008ed0a2e",
     "android": {
-      "package": "M.J",
+      "package": "mjzenith.com.mjzenith",
       "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
       "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
     }

@@ -22,7 +22,7 @@ export default class SignUp extends React.Component {
 
   	constructor(props) {
 		super(props);
-		this.state = { email: '', password: '', company: '', hidePassword: true, loader: false , selectedRadio: '' };
+		this.state = { fname: '', lname: '', email: '', password: '', company: '', hidePassword: true, loader: false , selectedRadio: '' };
 	}
 
 	managePasswordVisibility = () =>
@@ -31,7 +31,7 @@ export default class SignUp extends React.Component {
 	}
 
 	userRegister =()=> {
-	    if (!this.state.email || !this.state.password || !this.state.selectedRadio || (this.state.selectedRadio == 'company' && !this.state.company) ){
+	    if (!this.state.fname || !this.state.lname || !this.state.email || !this.state.password || !this.state.selectedRadio || (this.state.selectedRadio == 'company' && !this.state.company) ){
 			alert('Please fill all fields');
 			return false;
 		}
@@ -49,6 +49,8 @@ export default class SignUp extends React.Component {
 		data.password = this.state.password;
 		data.accounttype = this.state.selectedRadio;
 		data.company_name = this.state.company;
+		data.fname = this.state.fname;
+		data.lname = this.state.lname;
 
 		signUp(data).then(response => {
 			this.setState({loader:false});
@@ -77,7 +79,41 @@ export default class SignUp extends React.Component {
               style={styles.welcomeImage}
             />
           </View>
-          <View style={{ marginTop: 50}}>
+          <View >
+			  <TextInput
+				style={styles.input}
+				placeholder='First name'
+				placeholderTextColor="#767676"
+				onChangeText={(text) => this.setState({fname:text})}
+				value={this.state.fname}
+			  />
+			   <Icon
+			  containerStyle={styles.icon}
+			  name='user-o'
+			  type='font-awesome'
+			  color='#51bbfc'
+			  size={20}
+			/>
+		
+          </View>
+          <View style={{ marginTop: 10}}>
+			  <TextInput
+				style={styles.input}
+				placeholder='Last name'
+				placeholderTextColor="#767676"
+				onChangeText={(text) => this.setState({lname:text})}
+				value={this.state.lname}
+			  />
+			   <Icon
+			  containerStyle={styles.icon}
+			  name='user-o'
+			  type='font-awesome'
+			  color='#51bbfc'
+			  size={20}
+			/>
+			  
+          </View>
+          <View style={{ marginTop: 10}}>
 			  <TextInput
 				style={styles.input}
 				placeholder='Email'
@@ -141,7 +177,7 @@ export default class SignUp extends React.Component {
 
 
 
-			<View style={{ marginTop: 50}}>
+			<View style={{ marginTop: 30}}>
 				<TouchableOpacity style={styles.button} onPress={this.userRegister} >
 					<Text style={styles.btnText}>Sign up</Text>
 				</TouchableOpacity>
@@ -182,7 +218,6 @@ const styles = ScaledSheet.create({
   welcomeImage: {
 		width: '90%',
 		resizeMode: 'contain',
-    textAlign:'center'
 	},
 	input:{
 		backgroundColor:'white',

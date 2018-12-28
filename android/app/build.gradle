@@ -20,9 +20,9 @@ android {
   buildToolsVersion '27.0.3'
 
   defaultConfig {
-    applicationId 'M.J'
+    applicationId 'mjzenith.com.mjzenith'
     targetSdkVersion 26
-    versionCode 1
+    versionCode 2
     versionName '1.0.0'
     ndk {
       abiFilters 'armeabi-v7a', 'x86'
@@ -34,21 +34,6 @@ android {
       'appAuthRedirectScheme': 'host.exp.exponent'
     ]
   }
-   signingConfigs {
-        release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
-            }
-        }
-    }
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-    }
   dexOptions {
     javaMaxHeapSize System.getenv("DISABLE_DEX_MAX_HEAP") ? null : "8g"
   }
@@ -73,7 +58,31 @@ android {
       minSdkVersion 21
     }
   }
-
+  signingConfigs {
+    debug {
+      storeFile file('../debug.keystore')
+    }
+	release {
+		if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+			storeFile file(MYAPP_RELEASE_STORE_FILE)
+			storePassword MYAPP_RELEASE_STORE_PASSWORD
+			keyAlias MYAPP_RELEASE_KEY_ALIAS
+			keyPassword MYAPP_RELEASE_KEY_PASSWORD
+		}
+	}
+  }
+  buildTypes {
+    debug {
+      debuggable true
+      ext.enableCrashlytics = false
+    }
+    release {
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      zipAlignEnabled true
+	  signingConfig signingConfigs.release
+    }
+  }
 
   lintOptions {
     abortOnError false

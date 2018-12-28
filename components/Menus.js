@@ -10,6 +10,7 @@ import  {
   StatusBar,
   View,
   AsyncStorage,
+  ActivityIndicator,
 } from 'react-native'
 import { Icon, Avatar } from 'react-native-elements'
 import { ScaledSheet } from 'react-native-size-matters';
@@ -23,7 +24,7 @@ export default class Menus extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { selectedMenu : [], menus : [] , currentUser : [] , dropDown : false };
+		this.state = { selectedMenu : [], menus : [] , currentUser : [] , dropDown : false, loader: false };
 		this.menus = Constants.MENUS;
 
 		this.options = ['My Profile', 'Account Setting', 'Switch Company'];
@@ -69,7 +70,7 @@ export default class Menus extends React.Component {
 				Actions.AddCompany();
 			break;
 			case  'list_attachments':
-        Actions.ListAttachments();
+				Actions.ListAttachments();
 			break;
 			case  'upload_attachments':
 				Actions.UploadAttachment();
@@ -79,18 +80,16 @@ export default class Menus extends React.Component {
 			break;
 			case  'documents':
 				Actions.ListDocuments();
-
 			break;
 			case  'applications':
 				Actions.ListApplications();
-
 			break;
 			case  'logout':
+				this.setState({loader:true});
 				clearUserToken(this.state.currentUser).then((value) =>{
 					AsyncStorage.clear();
-					AsyncStorage.getItem('userData').then((value) =>{
-						Actions.Auth();
-					})
+					this.setState({loader:false});
+					Actions.Auth();
 				});
 			break;
 			case  'My Profile':
@@ -200,6 +199,15 @@ export default class Menus extends React.Component {
 					</View>
 				))}
 			</ScrollView>
+			{ this.state.loader === true ? (
+				<View style={styles.loderBackground}>
+				  <ActivityIndicator
+					color="#f05f40"
+					size="large"
+					animating={this.state.loader} />
+					<Text>Please wait</Text>
+				</View>):null
+			}
 		</View>
     )
   }
@@ -232,5 +240,13 @@ const styles = ScaledSheet.create({
   dropdown: {
 	width:150,
 	height:'auto',
+  },
+  loderBackground: {
+	position:'absolute',
+	right:30,
+	bottom:0,
+	top:0,
+	alignItems: 'center',
+	justifyContent: 'center',
   },
 })

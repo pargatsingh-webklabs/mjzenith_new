@@ -157,7 +157,6 @@ const styles = ScaledSheet.create({
 	welcomeImage: {
 		width: '90%',
 		resizeMode: 'contain',
-    textAlign:'center'
 	},
 	input:{
 		backgroundColor:'white',

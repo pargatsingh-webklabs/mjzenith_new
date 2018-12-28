@@ -55,6 +55,12 @@ export default class Notifications extends React.Component {
 			case  'document':
 				Actions.ListDocuments();
 			break;
+			case  'invoice':
+				Actions.ListInvoices();
+			break;
+			case  'application':
+				Actions.ListApplications();
+			break;
 			default:
 		}
 	}

@@ -32,7 +32,8 @@ export default class MyProfile extends React.Component {
 			
 			data.id = this.state.currentUser.id;
 			userDetail(data).then(result => {
-				this.setState({ fName: result.data.fname, lName: result.data.lname, phone: result.data.phone_no });
+				var userProfile = result.data;
+				this.setState({ fName: userProfile.fname !='null' ? userProfile.fname : '', lName: userProfile.lname !='null' ? userProfile.lname : '', phone: userProfile.phone_no !='null' ? userProfile.phone_no : '' });
 			});
 			
 		})
@@ -41,7 +42,7 @@ export default class MyProfile extends React.Component {
 
 	
 	submit =()=> {
-	    if (!this.state.fName || !this.state.lName || !this.state.cName){ 
+	    if (!this.state.fName || !this.state.lName){ 
 			alert('Please fill all fields');
 			return false;
 		}

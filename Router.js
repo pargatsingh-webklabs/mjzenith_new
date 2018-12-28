@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, BackHandler } from 'react';
 import { View, Text, AsyncStorage } from 'react-native';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import { ScaledSheet } from 'react-native-size-matters';
@@ -56,8 +56,21 @@ class RouterComponent extends Component {
 		if (this.state.loading) {
 		  return <View style={{  flex: 1,justifyContent: 'center',alignItems: 'center' }}><Text style={{ marginTop :50 }}>Loading...</Text></View>;
 		}
+		let backLoginScene=false;
         return (
-			<Router>
+			<Router 
+				backAndroidHandler={() => {
+					const back_button_prohibited = ['login'];
+					if (back_button_prohibited.includes(Actions.currentScene) ) {
+						if (backLoginScene == false) {
+							backLoginScene = !backLoginScene;
+							return true;
+						} else {
+							backLoginScene = false;
+							BackHandler.exitApp();
+						}
+						return false;
+				}}}>
 			    <Scene key="root" hideNavBar={true} >
 					<Scene key="Auth" hideNavBar type="reset"  initial={ this.state.initialSceneAuth } >
 			            <Scene key="SignIn" component={SignIn}   />

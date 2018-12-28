@@ -5,11 +5,11 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <permission
-    android:name="M.J.permission.C2D_MESSAGE"
+    android:name="mjzenith.com.mjzenith.permission.C2D_MESSAGE"
     android:protectionLevel="signature"/>
 
   <!-- These are required permissions to make the app run -->
-  <uses-permission android:name="M.J.permission.C2D_MESSAGE" />
+  <uses-permission android:name="mjzenith.com.mjzenith.permission.C2D_MESSAGE" />
   <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
@@ -170,7 +170,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="M.J" android:path="oauthredirect"/>
+        <data android:scheme="mjzenith.com.mjzenith" android:path="oauthredirect"/>
       </intent-filter>
     </activity>
 
@@ -188,7 +188,7 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="expo.modules.payments.stripe.d0c1d8f0-9536-4ec6-9a97-4d515b01ae89" />
+            <data android:scheme="expo.modules.payments.stripe.15cf4b8c-e963-4fcc-8fb2-9620fd67e41d" />
         </intent-filter>
     </activity>
     <!-- Versioned Activity for Stripe -->
@@ -277,7 +277,7 @@
         <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
         <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
 
-        <category android:name="M.J"/>
+        <category android:name="mjzenith.com.mjzenith"/>
       </intent-filter>
     </receiver>
 
@@ -344,7 +344,7 @@
     <!-- The Facebook SDK runs FacebookInitProvider on startup and crashes if there isn't an ID here -->
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="fb0"/>
 
-    <meta-data android:name="standaloneStripeScheme" android:value="d0c1d8f0-9536-4ec6-9a97-4d515b01ae89" />
+    <meta-data android:name="standaloneStripeScheme" android:value="15cf4b8c-e963-4fcc-8fb2-9620fd67e41d" />
   </application>
 
 </manifest>
